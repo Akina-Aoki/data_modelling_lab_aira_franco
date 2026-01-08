@@ -1,3 +1,12 @@
+# secrets
+.env
+
+.venv/
+
+
+# VSCODE
+.vscode/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
