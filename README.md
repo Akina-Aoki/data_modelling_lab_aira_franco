@@ -13,7 +13,7 @@ python -m venv .venv
 ```
 
 ```bash
-source .venv/bin/activate
+source .venv/Scripts/activate
 ```
 <br>
 - Validate that the virtual environment is activated and using the correct Python version:
@@ -28,6 +28,7 @@ which python
 <br>
 - Add PostgreSQL Extension
 **PostgreSQL** extension by Chris Kolkman in VSCode
+- DBML Entity-Relationship Diagrams visualizer
 
 - pip install packages (in the repo instructions)
 ```bash
