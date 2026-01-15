@@ -1,17 +1,7 @@
 # Conceptual Model
 ## Goal: 
 - Map out the big picture. Focus on the "things" (Entities) and how they relate (Relationships).
-
-## Extra Business Clarifications
-### 1. Contract of staffs:
-- A staff member has exactly **one role at a time,** defined by their **active contract.**
-- A staff member has only one role (1 role = 1 contract)
-- Consultants and staffs are assigned **strictly to one campus per contract.**
-- A role for staffs and consultants cannot change unless the **contract is ended and a new one is created.**
-- Each education class has exactly one project manager.
-- A project manager can hold at least one Education Class ie (DE 24, DE 25, AI 24, AI 25, ...)
-- The Campus table currently includes Gothenburg and Stockholm and allows future campuses to be added.
-- Planned employment of permanent instructors / consultants are handled through the Contract entity by allowing future-dated permanent contracts.
+- **The Stakeholder / the business explicitly forbids unresolved M:N, so bridge tables are already created in a CDM level.**
 
 ![Conceptual Model](../assets/Conceptual.png)
 
@@ -19,48 +9,46 @@
 
 ### Conceptual ERD – Entity Descriptions
 
+## Entity Descriptions (Easy English)
+
 | Entity | Description |
 |------|------------|
-| Student | Represents an individual enrolled in one or more education classes. |
-| Education Class | A specific round intake of a program, course or standalone course for a given year and campus. ie (DE 24, DE 25, AI 24, AI 25, ...) |
-| Program | A 2 year education consisting of multiple courses with defined credits and content. |
-| Course | A weeks long duration course with defined credits and content, not part of a program. |
-| Standalone Course | A course offered independently, not linked to a program. |
-| Campus | A physical school location where Education Classes, consultants and staffs are assigned. |
-| Staff | Internal employees such as program managers and administrative staff. |
-| Staff Role | Defines the role a staff member has in relation to an education class. For this assignment, only the Program Manager role is modeled, but the structure supports additional roles.|
-| Consultant | External personnel contracted to teach or support education classes. |
-| Consultant Teaches | Associative entity linking consultants to education classes they teach. |
-| Enrollment | Represents a student’s enrollment in an education class. |
-| Contract | Stores employment or consultancy contract information. |
-| Sensitive Information | Holds protected personal data, separated for access control. |
+| **Student** | A person who studies at the school. A student can join one program class or up to two standalone course classes in the same term, but not both at the same time. |
+| **Education Class** | A specific class offering of a program or course for a certain year and campus (for example DE 24 or AI 25). This is where teaching and student enrollment happen. |
+| **Program** | A two-year education made up of several courses, including a required internship (LIA). Each program is approved multiple times, creating several education classes over the years. |
+| **Course** | A standalone course with a set length, credits, and content. It is not part of a program and does not include an internship (LIA). |
+| **Campus** | A physical school location where classes take place and where staff and consultants work. The model allows new campuses to be added in the future. |
+| **Staff** | Employees of the school, such as program managers and administrative staff. Each staff member has one active role at a time, defined by their contract. |
+| **Staff Role** | Describes the job role a staff member has during an active contract. In this model, only the Program Manager role is included, but more roles can be added later. |
+| **Consultant** | External people hired to teach or support classes. Consultants work under contracts that define their role, campus, and time period. |
+| **Enrollment** | Shows that one student is enrolled in one education class. It connects students to the classes they attend. |
+| **Contract** | A work agreement for staff or consultants. It defines the role, campus, and time period, and allows future-dated contracts for planned hires. |
+| **Private Details** | Stores sensitive personal or company information, such as personal identity numbers, contact details, and consultant company data. This information is kept separate for security reasons. |
+
 
 
 ## Relationship Description:
 
-| Entity A          | Entity B              | Cardinality | Relationship Statement                                                   |
-| ----------------- | --------------------- | ----------- | ------------------------------------------------------------------------ |
-| Program           | Education Class       | 1 → many    | One program is taught in multiple education classes (approval years).    |
-| Course            | Education Class       | 1 → many    | One course can be taught in multiple education classes.                  |
-| Standalone Course | Education Class       | 1 → many    | One standalone course can be offered through multiple education classes. |
-| Campus            | Education Class       | 1 → many    | One campus hosts multiple education classes.                             |
-| Campus            | Staff                 | 1 → many    | One campus employs many staff members.                                   |
-| Campus            | Consultant            | 1 → many    | One campus employs many consultants.                                     |
-| Campus            | Student               | 1 → many    | One campus takes many students.                                          |
-| Staff             | StaffRole             | many → 1    | One staff member has the one role (one role = one contract rule).        |
-| StaffRole         | Staff                 | 1  → many   | Each staff role can be assigned to different staff members.              |
-| StaffRole         | Education Class       | 1  → many   | A staff role can handle multiple education classes. ie.(Each program manager is responsible for three classes )|
-| Education Class   | Staff Role            | many  → 1   | Each Education Class can be handled by one Staff Roles                  |
-| Staff             | Contract              | 1 → 1       | Each staff member can have one set of active contract.                   |
-| Staff             | Sensitive Information | 1 → 1       | Each staff member has exactly one set of sensitive personal data.        |
-| Consultant        | Contract              | 1 → 1       | Each staff member can have one set of active contract.                   |
-| Consultant        | Sensitive Information | 1 → 1       | Each consultant has exactly one set of sensitive personal data.          |
-| Consultant        | Consultant Teaches    | 1 → many    | One consultant can teach multiple education classes.                     |
-| ConsultantTeaches | Consultant            | many → 1    | Each teaching assignment belongs to exactly one consultant.              |
-| Education Class   | Consultant Teaches    | 1 → many    | One education class can be taught by multiple consultants.               |
-| ConsultantTeaches | EducationClass        | many → 1    | Each teaching assignment belongs to exactly one education class.         |
-| Education Class   | Enrollment            | 1 → many    | One education class has many student enrollments.                        |
-| Enrollment        | EducationClass        | many → 1    | Each enrollment belongs to exactly one education class.                  |
-| Student           | Enrollment            | 1 → many    | One student can be enrolled in multiple education classes.               |
-| Enrollment        | Student               | many → 1    | Each enrollment belongs to exactly one student.                          |
-| Student           | Sensitive Information | 1 → 1       | Each student has exactly one set of sensitive personal data.             |
+| Entity A | Entity B | Cardinality | Relationship Statement |
+|--------|----------|------------|------------------------|
+| **Program** | **Education Class** | 1 → many | One program is approved and delivered through multiple education classes over different years. |
+| **Course** | **Education Class** | 1 → many | One course can be delivered through multiple education classes over time. |
+| **Campus** | **Education Class** | 1 → many | One campus hosts multiple education classes. |
+| **Staff** | **Contract** | 1 → 1 (active) | Each staff member has exactly one active contract at a time that defines their role and campus assignment. |
+| **Consultant** | **Contract** | 1 → 1 (active) | Each consultant has exactly one active contract at a time defining their assignment and campus. |
+| **Staff Role** | **Contract** | 1 → many | A staff role can be assigned to many contracts over time, but each contract defines exactly one role. |
+| **Staff** | **Staff Role** | many → 1 (via Contract) | Each staff member holds exactly one role at a time, as defined by their active contract. |
+| **Education Class** | **Staff (Program Manager)** | many → 1 | Each education class is managed by exactly one staff member acting as Program Manager. |
+| **Staff (Program Manager)** | **Education Class** | 1 → many | One program manager is responsible for multiple education classes (minimum three). |
+| **Consultant** | **Consultant Teaches** | 1 → many | One consultant can teach multiple education classes. |
+| **Education Class** | **Consultant Teaches** | 1 → many | One education class can be taught by multiple consultants. |
+| **Consultant Teaches** | **Consultant** | many → 1 | Each teaching assignment belongs to exactly one consultant. |
+| **Consultant Teaches** | **Education Class** | many → 1 | Each teaching assignment belongs to exactly one education class. |
+| **Education Class** | **Enrollment** | 1 → many | One education class has many student enrollments. |
+| **Enrollment** | **Education Class** | many → 1 | Each enrollment belongs to exactly one education class. |
+| **Student** | **Enrollment** | 1 → many | One student can have multiple enrollments over time, but each enrollment represents one class. |
+| **Enrollment** | **Student** | many → 1 | Each enrollment belongs to exactly one student. |
+| **Student** | **Private Details** | 1 → 1 | Each student has exactly one set of private personal information. |
+| **Staff** | **Private Details** | 1 → 1 | Each staff member has exactly one set of private personal information. |
+| **Consultant** | **Private Details** | 1 → 1 | Each consultant has exactly one set of private personal or company-related information. |
+
