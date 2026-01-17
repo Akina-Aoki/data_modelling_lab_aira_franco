@@ -2,43 +2,41 @@
 ## Goal: 
 - Map out the big picture for the business stakeholders. Focus on the "things" (Entities) and how they relate (Relationships).
 
-![Conceptual Model](../assets/conceptual.png)
+![Conceptual Model](../assets/Conceptual.png)
 
 ## Entity Descriptions
-| Entity                  | Description |
-|-------------------------|-------------|
-| **Student**             | A person studying at the school. A student enrolls in classes (2024, 2025, ...), then to Program of choice (Data Engineer,...) through enrollment process. Business rules control whether a student enrolls in a program class or standalone course classes within a given term. |
-| **Class**               | An approved, time-bound delivery of a program or standalone course (e.g. 2024, 2025, 2026). A class represents a specific approval round. |
-| **Program**             | A two-year education consisting of multiple courses. Each program is approved in three rounds, resulting in exactly three classes delivered over different years. A student may be enrolled in only one program per term. |
-| **Course**              | A course that may either be part of a program or offered as a standalone course. Courses are delivered through education classes. Students enroll in standalone courses by enrolling in the corresponding class. A student may enroll in a maximum of two standalone course classes per term (business rule).|
-| **Campus**              | A physical school location where programs and courses are delivered and where staff and consultants are assigned. The model supports future campus expansion. |
-| **Staff**               | Internal employees of the school, such as program managers or administrative staff. Each staff member has exactly one active staff contract at a time. |
-| **Consultant**          | External professionals hired to teach or support education classes. Consultants operate under time-limited contracts and may represent an external consultant company. |
-| **Consultant Company**  | An external company that employs or represents one or more consultants providing services to the school. |
-| **Staff Contract**      | A time-bound agreement defining a staff member’s role, campus assignment, salary, and employment period. Only one staff contract may be active per person at any time. |
-| **Consultant Contract** | A time-bound agreement defining a consultant’s assignment, campus, compensation, and contract period. Only one consultant contract may be active per person at any time. |
-| **Enrollment**          | Represents a student’s enrollment in an education class. Each enrollment links exactly one student to exactly one class. |
-| **Private Details**     | Stores sensitive personal or company information, such as personal identity numbers and contact details. This data is isolated for security, privacy, and access control purposes. |
-| **Program Manager**     | A staff role responsible for managing education classes. Each program manager manages exactly three classes, and each class has exactly one program manager. |
 
+| Entity                         | Description                                                                                                                                                                                              |
+| ------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Student**                    | A person enrolled at the school. A student belongs to exactly one class. Students do not enroll directly in programs or courses; enrollment is always mediated through a class.       |
+| **Class**                      | An approved, time-bound delivery of an education program (e.g. DE24, DE25). A class represents a specific approval round of a program, is assigned to one campus, and groups students studying together. |
+| **Program**                    | A two-year education offering consisting of multiple predefined courses. A program defines the curriculum and may be approved multiple times over different years, resulting in multiple classes.        |
+| **Course**                     | A unit of education with defined content, credits, and learning objectives. A course may belong to one program or exist independently as a standalone course. Courses are not directly owned by classes. |
+| **Campus**                     | A physical school location where classes are delivered. Each class is associated with exactly one campus.                                                                                                |
+| **Staff**                      | Internal employees of the school, such as program managers or administrative personnel. Each staff member operates under exactly one active staff contract at a time.                                    |
+| **Staff Contract**             | A time-bound employment agreement defining a staff member’s role, campus assignment, compensation, and employment period. Only one staff contract may be active per staff member at any time.            |
+| **Consultant**                 | External professionals engaged by the school to teach or support classes. Consultants operate under consultant contracts and may be associated with a consultant company.                                |
+| **Consultant Contract**        | A time-bound agreement defining a consultant’s assignment, compensation, campus affiliation, and contract period. Only one active contract may exist per consultant at a time.                           |
+| **Consultant Company**         | An external organization that employs or represents one or more consultants providing services to the school.                                                                                            |
+| **Private Details**            | A secured entity containing sensitive personal or company information, such as personal identity numbers and contact details. Access is restricted for privacy and compliance reasons.                   |
+| **Project Manager Management** | An assignment entity representing the responsibility of a staff member acting as program manager for education classes. It enforces managerial constraints between staff and classes.                    |
 
 
 
 ## Relationship Descriptions
 
-| Entity A                   | Entity B                   | Cardinality           | Description                                                                                         |
-| -------------------------- | -------------------------- | --------------------- | --------------------------------------------------------------------------------------------------- |
-| Staff                      | Staff Contract             | 1 : 1                 | Each staff member has exactly one active staff contract. Each contract belongs to one staff member. |
-| Consultant                 | Consultant Contract        | 1 : 1                 | Each consultant has exactly one consultant contract. Each contract belongs to one consultant.       |
-| Consultant                 | Consultant Company         | N : 1                 | Each consultant works for one consultant company. A company can have many consultants.              |
-| Staff                      | Private Details            | 1 : 1                 | Each staff member has exactly one private details record.                                           |
-| Consultant                 | Private Details            | 1 : 1                 | Each consultant has exactly one private details record.                                             |
-| Campus                     | Class                      | 1 : N                 | A campus offers many classes. Each class is offered at exactly one campus.                          |
-| Program                    | Class                      | 1 : N                 | A program consists of many classes. Each class belongs to exactly one program.                      |
-| Course                     | Class                      | 1 : N                 | A course can be delivered through multiple classes. Each class delivers exactly one course.         |
-| Student                    | Enrollment                 | 1 : N                 | A student can have many enrollments. Each enrollment belongs to exactly one student.                |
-| Class                      | Enrollment                 | 1 : N                 | A class can have many enrollments. Each enrollment refers to exactly one class.                     |
-| Consultant                 | Class                      | 1 : N (0..1 on Class) | A consultant may teach multiple classes. A class may have zero or one consultant.                   |
-| Project Manager Management | Class                      | 1 : N (max 3)         | A program manager manages up to three classes. Each class has exactly one program manager.          |
-| Staff                      | Project Manager Management | 1 : N                 | A staff member may act as program manager for multiple classes through management assignments.      |
-
+| Entity A                       | Entity B                       | Cardinality   | Description                                                                                                                              |
+| ------------------------------ | ------------------------------ | ------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| **Staff**                      | **Staff Contract**             | 1 : 1         | Each staff member has exactly one active staff contract, and each staff contract belongs to exactly one staff member.                    |
+| **Consultant**                 | **Consultant Contract**        | 1 : 1         | Each consultant operates under exactly one active consultant contract, and each contract belongs to one consultant.                      |
+| **Consultant**                 | **Consultant Company**         | N : 1         | Each consultant is associated with one consultant company. A consultant company may represent many consultants.                          |
+| **Staff**                      | **Private Details**            | 1 : 1         | Each staff member has exactly one private details record storing sensitive information.                                                  |
+| **Consultant**                 | **Private Details**            | 1 : 1         | Each consultant has exactly one private details record storing sensitive information.                                                    |
+| **Campus**                     | **Class**                      | 1 : N         | A campus may host many classes. Each class is delivered at exactly one campus.                                                           |
+| **Program**                    | **Class**                      | 1 : N         | A program may be approved multiple times, resulting in multiple classes over different years. Each class belongs to exactly one program. |
+| **Program**                    | **Course**                     | 1 : N         | A program consists of one or more courses that define its curriculum.                                                                    |
+| **Course**                     | **Program**                    | 0 : 1         | A course may belong to one program or exist independently as a standalone course.                                                        |
+| **Student**                    | **Class**                      | N : 1         | Each student belongs to exactly one class per term. A class may contain many students.                                                   |
+| **Consultant**                 | **Class**                      | 0..N : 0..N   | A consultant may teach multiple classes, and a class may be taught by zero or more consultants.                                          |
+| **Staff**                      | **Project Manager Management** | 1 : N         | A staff member may be assigned as program manager for multiple classes through management assignments.                                   |
+| **Project Manager Management** | **Class**                      | 1 : N (max 3) | Each program manager manages up to three classes. Each class is managed by exactly one program manager.                                  |

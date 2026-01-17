@@ -18,8 +18,8 @@ This document consolidates business domain / entity, and each section clearly de
 - Business Rules
 - A student can:
     - enroll in one program per term, OR
-    - enroll in up to two standalone courses (courses that does not exist in program) per term.
-    - A student may not be enrolled in a program and standalone courses at the same time.
+    - enroll in ONE standalone courses (courses that does not exist in program) per term.
+    - A student may not be enrolled in a program and standalone course at the same time.
 
 ### Logical / Normalization Rules
 - Student stores only identity-level attributes.
@@ -79,20 +79,16 @@ This document consolidates business domain / entity, and each section clearly de
 
 ## 4. Education Structure
 ### 4.1 Program
-
-- Business Rules
-    - A program is a two-year education consisting of multiple courses.
-    - Includes mandatory internship (LIA).
-    - Each program is approved once per term, creating multiple classes every year.
+- A program is a two-year education consisting of multiple courses, including mandatory internship (LIA). 
+- A program may be approved multiple times over different years; each approval creates one Class (e.g., DE24, DE25, DE26). 
+- Each Class belongs to exactly one Program.
 
 ### 4.2 Course
-
-- Business Rules
-    - A course has course name, credits, description, and program_id.
-
-- A course can either:
-    - belong to 0 or more programs ie.(Python -> DE24, DE25), OR
-    - be a standalone course.
+- A course has a course name, course code, credits, and a short description. 
+- A course may either:
+    - belong to one Program (program course), or
+    - belong to no Program (standalone course). 
+- Courses are delivered to classes through teaching/delivery assignments; courses are not owned directly by classes (conceptually).
 
 - Logical / Normalization Rules
     - program_id nullable
@@ -101,18 +97,10 @@ This document consolidates business domain / entity, and each section clearly de
     - IF `program_id` IS NULL AND `course_id` IS NOT NULL → standalone course
     - And vice versa
 
-### 4.3 Education Class
-- Business Rules
-    - A Class (2024, 2025, ...) is the only entity that connects Students to Programs or Courses.
-    - Represents an approved delivery of a program or course and campus.
-    - Must be associated with either one Program or (2 max) Courses, never both.
-
-
-- Logical / Normalization Rules
-    - Mutually exclusive foreign keys:
-    - Exactly one of program_id or course_id must be populated.
-    - IF `program_id` IS NULL AND `course_id` IS NOT NULL → Student studies COURSE
-    - IF `program_id` IS NOT NULL AND `course_id` IS NULL → Student studies program
+### 4.3 Class
+- A Class (e.g., DE24, DE25, DE26) represents an approved delivery instance of a Program.
+- A class groups students who study together under the same program approval round and is delivered at one campus.
+- Students enroll in a class; students do not enroll directly in programs or courses.
 
 ## 5. Enrollment
 ### 5.1 Enrollment
@@ -126,12 +114,9 @@ This document consolidates business domain / entity, and each section clearly de
 
 ## 6. Program Manager ??
 - Business Rules
-    - Each education class must have exactly one program manager.
+    - Each class class must have exactly one program manager.
     - A program manager must manage at least three education classes.
     - Maximum of three concurrent classes per program manager.
-
-- Logical / Normalization Rules
-???
 
 ## 7. Campus
 ### 7.1 Campus
