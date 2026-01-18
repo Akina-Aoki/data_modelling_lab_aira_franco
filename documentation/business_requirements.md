@@ -52,7 +52,7 @@ This document consolidates business domain / entity, and each section clearly de
 ### 2.3 Consultant
 - Business Rules
     - Consultants are external service providers.
-    - Consultants only teach classes.
+    - Consultants only teach courses.
     - A consultant may teach multiple courses through Consultant Teach.
 ### 2.4 Private Details
 - Business Rules
@@ -70,7 +70,7 @@ This document consolidates business domain / entity, and each section clearly de
     - A contract defines contract type, dates, status, hourly_rate, fixed_salary, f_tax_status, campus_id.
     - Only one active contract is allowed per person.
     - Contracts support planned employment.
-    - A role for staffs and consultants cannot change unless the **contract is ended and a new one is created.**
+    - A role for staffs and consultants (only teach) cannot change unless the **contract is ended and a new one is created.**
     - Contracts are private and cannot be publicly accessed.
 
 
@@ -91,7 +91,7 @@ This document consolidates business domain / entity, and each section clearly de
      - `contract_type`
 
 ## 4. Program Manager Management
-    - Each class class must have exactly one program manager.
+    - Each class must have exactly one program manager.
     - A program manager must manage at least three education classes.
     - Maximum of three concurrent classes per program manager.
     - A staff contract with role = `PROGRAM_MANAGER` may be assigned to manage classes.
