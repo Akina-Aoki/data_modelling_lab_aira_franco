@@ -44,6 +44,7 @@ This document consolidates business domain / entity, and each section clearly de
     - Staff are internal employees of the school.
     - Each staff member has exactly one active contract at a time.
     - Staff roles cannot change without ending the current contract.
+    - Teaching can be performed by internal staff or external consultants.
 
 - Logical / Normalization Rules
     - Staff references Contract and Private Details.
@@ -52,7 +53,7 @@ This document consolidates business domain / entity, and each section clearly de
 - Business Rules
     - Consultants are external service providers.
     - Consultants only teach classes.
-
+    - A consultant may teach multiple courses through Consultant Teach.
 ### 2.4 Private Details
 - Business Rules
     - Stores sensitive personal or company information.
@@ -77,18 +78,41 @@ This document consolidates business domain / entity, and each section clearly de
     - Contract binds to exactly one Campus.
     - Contract enforces role immutability during its active period.
 
-## 4. Education Structure
-### 4.1 Program
+### 3.2 Planned Employment of Permanent Instructors
+- Instructor is modeled as a role rather than a separate entity.
+- Teaching responsibilities may be fulfilled by either consultants or permanent staff, depending on the active or planned contract.
+- Planned employment of permanent instructors is represented through future-dated staff contracts.
+
+- This requirement is about time.
+- This is supported in the attributes in the `contract` table for (both allowed to teach) Consultants and Staff by having the following attributes:
+     - `start_date`
+     - `end_date`
+     - `status`
+     - `contract_type`
+
+## 4. Program Manager Management
+    - Each class class must have exactly one program manager.
+    - A program manager must manage at least three education classes.
+    - Maximum of three concurrent classes per program manager.
+    - A staff contract with role = `PROGRAM_MANAGER` may be assigned to manage classes.
+        - This aligns all three requirements:
+        - Instructor role
+        - Planned employment
+        - Max 3 classes constraint
+
+## 5. Education Structure
+### 5.1 Program
 - A program is a two-year education consisting of multiple courses, including mandatory internship (LIA). 
 - A program may be approved multiple times over different years; each approval creates one Class (e.g., DE24, DE25, DE26). 
 - Each Class belongs to exactly one Program.
 
-### 4.2 Course
+### 5.2 Course
 - A course has a course name, course code, credits, and a short description. 
 - A course may either:
     - belong to one Program (program course), or
     - belong to no Program (standalone course). 
 - Courses are delivered to classes through teaching/delivery assignments; courses are not owned directly by classes (conceptually).
+- A course may be taught by multiple consultants through Consultant Teach across different terms. Each Consultant Teach record references exactly one Course
 
 - Logical / Normalization Rules
     - program_id nullable
@@ -97,13 +121,13 @@ This document consolidates business domain / entity, and each section clearly de
     - IF `program_id` IS NULL AND `course_id` IS NOT NULL → standalone course
     - And vice versa
 
-### 4.3 Class
+### 5.3 Class
 - A Class (e.g., DE24, DE25, DE26) represents an approved delivery instance of a Program.
 - A class groups students who study together under the same program approval round and is delivered at one campus.
 - Students enroll in a class; students do not enroll directly in programs or courses.
 
-## 5. Enrollment
-### 5.1 Enrollment
+## 6. Enrollment
+### 6.1 Enrollment
 
 - Business Rules
     - Enrollment links one student to one class.
@@ -112,11 +136,6 @@ This document consolidates business domain / entity, and each section clearly de
 - Logical / Normalization Rules
     - Resolves the many-to-many relationship between Student and Education Class.
 
-## 6. Program Manager ??
-- Business Rules
-    - Each class class must have exactly one program manager.
-    - A program manager must manage at least three education classes.
-    - Maximum of three concurrent classes per program manager.
 
 ## 7. Campus
 ### 7.1 Campus
