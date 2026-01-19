@@ -19,7 +19,7 @@ This document consolidates business domain / entity, and each section clearly de
 - A student can:
     - enroll in one program per term, OR
     - enroll in ONE standalone courses (courses that does not exist in program) per term.
-    - A student may not be enrolled in a program and standalone course at the same time.
+    - A student may not be enrolled in a program and one standalone course at the same time, not allowed at the same time.
 
 ### Logical / Normalization Rules
 - Student stores only identity-level attributes.
@@ -112,6 +112,7 @@ This document consolidates business domain / entity, and each section clearly de
     - belong to one Program (program course), or
     - belong to no Program (standalone course). 
 - Courses are delivered to classes through teaching/delivery assignments; courses are not owned directly by classes (conceptually).
+- A student can only study one course per term.
 - A course may be taught by multiple consultants through Consultant Teach across different terms. Each Consultant Teach record references exactly one Course
 
 - Logical / Normalization Rules
