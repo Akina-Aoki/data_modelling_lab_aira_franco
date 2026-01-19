@@ -1,7 +1,0 @@
-- `consultant_teach` has:
-- Its own surrogate PK
-- Two FKs
-- Time-bound attributes (start_date, end_date)
-- No transitive dependencies
-- No multi-valued attributes
-- No hidden M:N relationships
