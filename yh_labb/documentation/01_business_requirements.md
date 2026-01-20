@@ -51,7 +51,7 @@ This document consolidates business domain / entity, and each section clearly de
 
 ### 2.3 Consultant
 - Business Rules
-    - Consultants are external service providers.
+    - Consultants are external service providers, `INSTRUCTOR` in the contract.
     - Consultants only teach courses.
     - A consultant may teach multiple courses through Consultant Teach.
 ### 2.4 Private Details
@@ -94,10 +94,7 @@ This document consolidates business domain / entity, and each section clearly de
     - Each class must have exactly one program manager.
     - A program manager must manage at least three education classes.
     - Maximum of three concurrent classes per program manager.
-    - A staff contract with role = `PROGRAM_MANAGER` may be assigned to manage classes.
-        - This aligns all three requirements:
-        - Instructor role
-        - Planned employment
+    - A staff contract with role = `PROGRAM_MANAGER` may be assigned to manage 3 classes.
         - Max 3 classes constraint
 
 ## 5. Education Structure
@@ -118,14 +115,20 @@ This document consolidates business domain / entity, and each section clearly de
 - Logical / Normalization Rules
     - program_id nullable
     - Constraint-based classification:
-    - IF `program_id` IS NOT NULL AND `course_id` IS NULL → program course
+    - IF `program_id` IS NOT NULL → program course
     - IF `program_id` IS NULL AND `course_id` IS NOT NULL → standalone course
-    - And vice versa
 
 ### 5.3 Class
 - A Class (e.g., DE24, DE25, DE26) represents an approved delivery instance of a Program.
 - A class groups students who study together under the same program approval round and is delivered at one campus.
 - Students enroll in a class; students do not enroll directly in programs or courses.
+
+### 5.4 Course Credits
+- Each program consists of 400 academic credits.
+- Program credits are calculated from the sum of course credits.
+- Credits are stored at the course level to avoid duplicated data (3NF).
+- Courses may have different credit values based on scope.
+- Standalone courses use `program_id = NULL` and have 100 credits.
 
 ## 6. Enrollment
 ### 6.1 Enrollment

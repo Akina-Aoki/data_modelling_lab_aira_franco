@@ -54,6 +54,12 @@ ORDER BY c.class_name, p.program_name, s.first_name, s.last_name
     Query : Consultants, Companies, and Courses Taught
     Which consultants teach which courses, and which company do they belong to?
    ========================================================= */
+SELECT course_id
+FROM course
+WHERE course_id NOT IN (
+    SELECT course_id FROM consultant_teach
+);
+
 
 
    /* =========================================================
@@ -65,4 +71,12 @@ ORDER BY c.class_name, p.program_name, s.first_name, s.last_name
     Query : Standalone Courses
     Which courses are not tied to any program?
    ========================================================= */
+
+/* Course Credits Validation. Each Program has 400 credits. Standalone is 100.*/
+SELECT
+    program_id,
+    SUM(course_credits) AS total_credits
+FROM course
+GROUP BY program_id
+ORDER BY program_id;
 
