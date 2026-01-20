@@ -32,17 +32,17 @@ INSERT INTO consultant_company (consultant_company_id, company_name, organizatio
    --------------------------------------------------------- */
 INSERT INTO private_details (private_details_id, personal_identity_number, email, address) VALUES
   -- Stockholm staff (5)
-  ('PD001', '199001010001', 'pm.de@yrkesco.se',          'Kungsgatan 1, 111 43 Stockholm'),
-  ('PD002', '198502020002', 'admin.sth@yrkesco.se',      'Vasagatan 10, 111 20 Stockholm'),
+  ('PD001', '199001010001', 'pm.de@yrkesco.se', 'Kungsgatan 1, 111 43 Stockholm'),
+  ('PD002', '198502020002', 'admin.sth@yrkesco.se', 'Vasagatan 10, 111 20 Stockholm'),
   ('PD003', '197903030003', 'accounting.sth@yrkesco.se', 'Hornsgatan 5, 118 46 Stockholm'),
-  ('PD004', '199204040004', 'secretary.sth@yrkesco.se',  'Odengatan 12, 113 22 Stockholm'),
+  ('PD004', '199204040004', 'secretary.sth@yrkesco.se', 'Odengatan 12, 113 22 Stockholm'),
   ('PD005', '198806060005', 'instructor.sth@yrkesco.se', 'Birgerjarlsgatan 20, 114 34 Stockholm'),
 
   -- Gothenburg staff (5)
-  ('PD006', '199101010006', 'pm.ux@yrkesco.se',          'Kungsportsavenyn 10, 411 36 Gothenburg'),
-  ('PD007', '198602020007', 'admin.got@yrkesco.se',      'Drottninggatan 1, 411 14 Gothenburg'),
+  ('PD006', '199101010006', 'pm.ux@yrkesco.se', 'Kungsportsavenyn 10, 411 36 Gothenburg'),
+  ('PD007', '198602020007', 'admin.got@yrkesco.se', 'Drottninggatan 1, 411 14 Gothenburg'),
   ('PD008', '197904040008', 'accounting.got@yrkesco.se', 'Andra Langgatan 5, 413 03 Gothenburg'),
-  ('PD009', '199205050009', 'secretary.got@yrkesco.se',  'Sodra Vagen 20, 412 54 Gothenburg'),
+  ('PD009', '199205050009', 'secretary.got@yrkesco.se', 'Sodra Vagen 20, 412 54 Gothenburg'),
   ('PD010', '198807070010', 'instructor.got@yrkesco.se', 'Linnégatan 1, 413 04 Gothenburg'),
 
   -- Consultants (4)
@@ -75,7 +75,7 @@ INSERT INTO private_details (private_details_id, personal_identity_number, email
    --------------------------------------------------------- */
 INSERT INTO staff (staff_id, first_name, last_name, private_details_id) VALUES
   -- Stockholm
-  ('ST001', 'Diana',   'Engberg',  'PD001'),
+  ('ST001', 'Diana', 'Engberg',  'PD001'),
   ('ST002', 'Sofia',   'Adminsson','PD002'),
   ('ST003', 'Erik',    'Bokfor',   'PD003'),
   ('ST004', 'Maja',    'Sekret',   'PD004'),
@@ -178,10 +178,10 @@ INSERT INTO staff_contract (staff_contract_id, staff_id, role, contract_type, st
    Contract dates: 2023-09-01 to 2027-08-31
    --------------------------------------------------------- */
 INSERT INTO consultant_contract (consultant_contract_id, consultant_id, role, contract_type, start_date, end_date, status, hourly_rate, campus_id) VALUES
-  ('CCT01', 'CN001', 'INSTRUCTOR', 'INSTRUCTOR', '2023-09-01', '2027-08-31', 'ACTIVE', 950.00, 'STH'),
-  ('CCT02', 'CN002', 'INSTRUCTOR', 'INSTRUCTOR', '2023-09-01', '2027-08-31', 'ACTIVE', 900.00, 'STH'),
-  ('CCT03', 'CN003', 'INSTRUCTOR', 'INSTRUCTOR', '2023-09-01', '2027-08-31', 'ACTIVE', 950.00, 'GOT'),
-  ('CCT04', 'CN004', 'INSTRUCTOR', 'INSTRUCTOR', '2023-09-01', '2027-08-31', 'ACTIVE', 900.00, 'GOT');
+  ('CCT01', 'CN001', 'INSTRUCTOR', 'CONTRACTOR', '2023-09-01', '2027-08-31', 'ACTIVE', 950.00, 'STH'),
+  ('CCT02', 'CN002', 'INSTRUCTOR', 'CONTRACTOR', '2023-09-01', '2027-08-31', 'ACTIVE', 900.00, 'STH'),
+  ('CCT03', 'CN003', 'INSTRUCTOR', 'CONTRACTOR', '2023-09-01', '2027-08-31', 'ACTIVE', 950.00, 'GOT'),
+  ('CCT04', 'CN004', 'INSTRUCTOR', 'CONTRACTOR', '2023-09-01', '2027-08-31', 'ACTIVE', 900.00, 'GOT');
 
 /* ---------------------------------------------------------
    12) Consultant teaching assignments
