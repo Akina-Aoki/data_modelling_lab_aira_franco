@@ -116,12 +116,12 @@ INSERT INTO class (class_id, program_id, campus_id, class_name, class_code, acad
 -- =========================================================
 INSERT INTO staff_contract (staff_contract_id, staff_id, role, contract_type, start_date, end_date, status, salary, campus_id) VALUES
 ('SC_01','STAFF_01','PROGRAM_MANAGER','PERMANENT','2024-09-01','2026-08-31','ACTIVE',52000,'CAMP_STH'),
-('SC_02','STAFF_02','PROGRAM_MANAGER','PERMANENT','2024-09-01','2026-08-31','ACTIVE',52000,'CAMP_STH'),
+('SC_02','STAFF_02','SECRETARY','PERMANENT','2024-09-01','2026-08-31','ACTIVE',52000,'CAMP_STH'),
 ('SC_03','STAFF_03','INSTRUCTOR','PERMANENT','2024-09-01','2026-08-31','ACTIVE',48000,'CAMP_STH'),
 ('SC_04','STAFF_04','ADMINISTRATOR','PERMANENT','2024-09-01','2026-08-31','ACTIVE',45000,'CAMP_STH'),
 ('SC_05','STAFF_05','ECONOMIST','PERMANENT','2024-09-01','2026-08-31','ACTIVE',47000,'CAMP_STH'),
 ('SC_06','STAFF_06','PROGRAM_MANAGER','PERMANENT','2024-09-01','2026-08-31','ACTIVE',52000,'CAMP_GBG'),
-('SC_07','STAFF_07','PROGRAM_MANAGER','PERMANENT','2024-09-01','2026-08-31','ACTIVE',52000,'CAMP_GBG'),
+('SC_07','STAFF_07','SECRETARY','PERMANENT','2024-09-01','2026-08-31','ACTIVE',52000,'CAMP_GBG'),
 ('SC_08','STAFF_08','INSTRUCTOR','PERMANENT','2024-09-01','2026-08-31','ACTIVE',48000,'CAMP_GBG'),
 ('SC_09','STAFF_09','ADMINISTRATOR','PERMANENT','2024-09-01','2026-08-31','ACTIVE',45000,'CAMP_GBG'),
 ('SC_10','STAFF_10','ECONOMIST','PERMANENT','2024-09-01','2026-08-31','ACTIVE',47000,'CAMP_GBG');
@@ -130,10 +130,10 @@ INSERT INTO staff_contract (staff_contract_id, staff_id, role, contract_type, st
 -- CONSULTANT CONTRACT
 -- =========================================================
 INSERT INTO consultant_contract (consultant_contract_id, consultant_id, role, contract_type, start_date, end_date, status, hourly_rate, campus_id) VALUES
-('CCN_01','CONS_01','INSTRUCTOR','CONSULTING','2024-09-01','2026-08-31','ACTIVE',850,'CAMP_STH'),
-('CCN_02','CONS_02','INSTRUCTOR','CONSULTING','2024-09-01','2026-08-31','ACTIVE',900,'CAMP_STH'),
-('CCN_03','CONS_03','INSTRUCTOR','CONSULTING','2024-09-01','2026-08-31','ACTIVE',800,'CAMP_GBG'),
-('CCN_04','CONS_04','INSTRUCTOR','CONSULTING','2024-09-01','2026-08-31','ACTIVE',820,'CAMP_GBG');
+('CCN_01','CONS_01','INSTRUCTOR','INSTRUCTOR','2024-09-01','2026-08-31','ACTIVE',850,'CAMP_STH'),
+('CCN_02','CONS_02','INSTRUCTOR','INSTRUCTOR','2024-09-01','2026-08-31','ACTIVE',900,'CAMP_STH'),
+('CCN_03','CONS_03','INSTRUCTOR','INSTRUCTOR','2024-09-01','2026-08-31','ACTIVE',800,'CAMP_GBG'),
+('CCN_04','CONS_04','INSTRUCTOR','INSTRUCTOR','2024-09-01','2026-08-31','ACTIVE',820,'CAMP_GBG');
 
 -- =========================================================
 -- CONSULTANT TEACH
@@ -152,9 +152,9 @@ INSERT INTO consultant_teach (consultant_id, course_id, start_date, end_date) VA
 -- =========================================================
 INSERT INTO program_manager_management (pm_management_id, staff_contract_id, class_id) VALUES
 ('PMM_01','SC_01','CLS_DE_STH_24'),
-('PMM_02','SC_02','CLS_UX_STH_24'),
+('PMM_02','SC_01','CLS_UX_STH_24'),
 ('PMM_03','SC_06','CLS_DE_GBG_24'),
-('PMM_04','SC_07','CLS_JAVA_GBG_24');
+('PMM_04','SC_06','CLS_JAVA_GBG_24');
 
 -- =========================================================
 -- ENROLLMENT
