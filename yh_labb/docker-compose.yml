@@ -1,8 +1,10 @@
 services:
   postgres:  # one docker container
-    image: postgres:latest
+    image: postgres:16
     container_name: yrkesco_postgres
     restart: always
+    env_file:
+      - .env  #prevent misconfiguration
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
@@ -12,8 +14,9 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data # DEFAULT: named volume created under volumes section (1st way of persisting/saving data)
       - ./sql:/docker-entrypoint-initdb.d:ro # # SQL initialization scripts (run ONCE, in order)
+      - ./sql:/sql:ro
     healthcheck: # an extra check to see if the postgreSQL is initiated inside the container
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres}"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres} -d ${POSTGRES_DB}"]
       interval: 5s
       retries: 5
       timeout: 3s

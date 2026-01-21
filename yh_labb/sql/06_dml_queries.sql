@@ -1,4 +1,4 @@
-/* 
+/* !!! Missing
 Query 1: Students (name) + Contact Info (personal_identity_number, email)
 Who are the students, how can we contact them?
 */
@@ -15,7 +15,7 @@ JOIN enrollment e ON s.student_id = e.student_id
 ORDER BY s.first_name, s.last_name;
 
 
-/* 
+/* !!!! Standlone fix
 Query 2: Stundets + class + program enrolled in
 Who are the students and which class and program are they enrolled in?
 */
@@ -36,7 +36,7 @@ ORDER BY
     s.last_name,
     s.first_name;
 
-/* 
+/* OK
 Query 3: Consultants (name) + Contact Info (email)
 Who are the consultants, how can we contact them?
 */
@@ -53,14 +53,14 @@ ORDER BY
     c.first_name;
 
 
-/* 
+/* Recheck
 Query 4: Consultants + consultant company details (organization number, F-tax status, address, and hourly rate) + Contract Type
 What are the company details of the consultans and their contract types?
 */
 SELECT
     c.first_name,
     c.last_name,
-    cc.consultant_company,
+    cc.consultant_company_id,
     cc.organization_number,
     cc.f_tax_status,
     cc.address,
@@ -78,7 +78,7 @@ ORDER BY
     cc.company_name;
 
 
-/* 
+/* OK
 Query 5: Consultants (first_name, last_name) + Course (course_name) + Program (program_name) + Campus (campus_name)
 Which courses and programs do consultants teach and which campus?
 */
@@ -103,7 +103,7 @@ ORDER BY
     crs.course_name;
 
 
-/*
+/* OK
 Query 6: Staffs (name) + Contact Info (personal_identity_number, email)
 Who are the staffs, how can we contact them?
 */
@@ -118,7 +118,7 @@ ORDER BY
     s.first_name,
     s.last_name;
 
-/*
+/* OK
 Query 7: Planned employment of permanent instructors (BONUS)
 Staffs and their contract information, roles, campus, date,
 */
@@ -145,7 +145,7 @@ ORDER BY
     s.last_name;
 
 
-/*
+/* OK
 Query 8: Staff by Campus and Role
 Who works at each campus and in what role?
 */
@@ -166,8 +166,8 @@ ORDER BY
     s.last_name;
 
 
-/* 
-Query 9: Program Managers and their personal information
+/* OK
+IMPORTANT: Query 9: Program Managers and their personal information
 Who are the staffs that are program Managers in all campus and which classes are they in charge of? (Asnwer 3 classes per PM)
 */
 SELECT
@@ -199,7 +199,7 @@ ORDER BY
     cl.academic_year;
 
 
-/* 
+/* OK
 Query 10: Courses per Program (Curriculum View)
 What courses belong to each program?
 */
@@ -207,6 +207,7 @@ SELECT
     p.program_name,
     co.course_name,
     co.course_code,
+    co.course_credits,
     co.course_description
     
 FROM program p
@@ -216,12 +217,13 @@ ORDER BY
     co.course_code;
 
 
-/* 
+/* Recheck
 Query 11: Classes per Program (Class View)
 What classes belong to each program?
 */
 SELECT
-    p.program,
+    p.program_id,
+    p.program_name,
     cl.class_name,
     cl.class_code,
     cl.academic_year,
@@ -236,7 +238,7 @@ ORDER BY
     ca.campus_name;
 
 
-/*
+/* OK
 Query 12: Standalone Courses
 Which courses are not tied to any program?
 */
@@ -251,7 +253,8 @@ ORDER BY
     c.course_code;
 
 
-/* Query 13: Course Credits Validation. Each Program has 400 credits. Standalone is 100.*/
+/* OK
+Query 13: Course Credits Validation. Each Program has 400 credits. Standalone is 100.*/
 SELECT
     program_id,
     SUM(course_credits) AS total_credits
@@ -259,25 +262,5 @@ FROM course
 GROUP BY program_id
 ORDER BY program_id;
 
--- Validate total credits / program is 400
-SELECT
-    p.program_name,
-    SUM(c.course_credits) AS total_program_credits
-FROM program p
-JOIN course c
-    ON p.program_id = c.program_id
-GROUP BY
-    p.program_name
-HAVING SUM(c.course_credits) = 400;
 
 
--- Validate total credits / program is 100
-
-SELECT
-    c.course_id,
-    c.course_code,
-    c.course_name,
-    c.course_credits
-FROM course c
-WHERE c.program_id IS NULL
-  AND c.course_credits = 100;

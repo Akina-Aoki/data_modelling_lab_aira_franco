@@ -18,13 +18,13 @@ INSERT INTO campus (campus_id, campus_name, city) VALUES
    --------------------------------------------------------- */
 INSERT INTO program (program_id, program_name, program_credits, program_description) VALUES
   ('DE', 'Data Engineering', 400, 'Two-year vocational program focused on data engineering fundamentals.'),
-  ('UX', 'UX Design',       400, 'Two-year vocational program focused on UX design methods and practice.');
+  ('UX', 'UX Design', 400, 'Two-year vocational program focused on UX design methods and practice.');
 
 /* ---------------------------------------------------------
    3) Consultant companies
    --------------------------------------------------------- */
 INSERT INTO consultant_company (consultant_company_id, company_name, organization_number, f_tax_status, address) VALUES
-  ('CC001', 'Nordic Data Consulting AB', '5561234567', TRUE,  'Sveavagen 10, 111 57 Stockholm'),
+  ('CC001', 'Nordic Data Consulting AB', '5561234567', TRUE, 'Sveavagen 10, 111 57 Stockholm'),
   ('CC002', 'West Coast Design Partners AB', '5569876543', TRUE, 'Avenyn 1, 411 36 Gothenburg');
 
 /* ---------------------------------------------------------
@@ -46,10 +46,10 @@ INSERT INTO private_details (private_details_id, personal_identity_number, email
   ('PD010', '198807070010', 'instructor.got@yrkesco.se', 'Linnégatan 1, 413 04 Gothenburg'),
 
   -- Consultants (4)
-  ('PD011', '198001010011', 'consult.de.sth1@vendor.se',  'Sturegatan 3, 114 36 Stockholm'),
-  ('PD012', '198101010012', 'consult.de.sth2@vendor.se',  'Norrmalmstorg 1, 111 46 Stockholm'),
-  ('PD013', '198201010013', 'consult.ux.got1@vendor.se',  'Avenyn 5, 411 36 Gothenburg'),
-  ('PD014', '198301010014', 'consult.ux.got2@vendor.se',  'Järntorget 2, 413 04 Gothenburg'),
+  ('PD011', '198001010011', 'consult.de.sth1@vendor.se', 'Sturegatan 3, 114 36 Stockholm'),
+  ('PD012', '198101010012', 'consult.de.sth2@vendor.se', 'Norrmalmstorg 1, 111 46 Stockholm'),
+  ('PD013', '198201010013', 'consult.ux.got1@vendor.se', 'Avenyn 5, 411 36 Gothenburg'),
+  ('PD014', '198301010014', 'consult.ux.got2@vendor.se', 'Järntorget 2, 413 04 Gothenburg'),
 
   -- Students (12 program students + 3 standalone students)
   ('PD101', '200501010101', 'student01@yrkesco.se', 'Studentvagen 1, 111 11 Stockholm'),
@@ -66,72 +66,72 @@ INSERT INTO private_details (private_details_id, personal_identity_number, email
   ('PD112', '200512120112', 'student12@yrkesco.se', 'Studentgatan 6, 411 11 Gothenburg'),
 
   -- Standalone-only students (3)
-  ('PD201', '200601010201', 'standalone01@yrkesco.se', 'Distance Only, Sweden'),
-  ('PD202', '200602020202', 'standalone02@yrkesco.se', 'Distance Only, Sweden'),
-  ('PD203', '200603030203', 'standalone03@yrkesco.se', 'Distance Only, Sweden');
+  ('PD201', '200601010201', 'standalone01@yrkesco.se', 'Distance Only'),
+  ('PD202', '200602020202', 'standalone02@yrkesco.se', 'Distance Only'),
+  ('PD203', '200603030203', 'standalone03@yrkesco.se', 'Distance Only');
 
 /* ---------------------------------------------------------
    5) Staff (5 per campus)
    --------------------------------------------------------- */
 INSERT INTO staff (staff_id, first_name, last_name, private_details_id) VALUES
   -- Stockholm
-  ('ST001', 'Diana', 'Engberg',  'PD001'),
-  ('ST002', 'Sofia',   'Adminsson','PD002'),
-  ('ST003', 'Erik',    'Bokfor',   'PD003'),
-  ('ST004', 'Maja',    'Sekret',   'PD004'),
-  ('ST005', 'Jonas',   'Larare',   'PD005'),
+  ('ST001', 'Diana', 'Engberg', 'PD001'),
+  ('ST002', 'Sofia', 'Adminsson','PD002'),
+  ('ST003', 'Erik', 'Bokfor', 'PD003'),
+  ('ST004', 'Maja', 'Sekret', 'PD004'),
+  ('ST005', 'Jonas', 'Larare', 'PD005'),
   -- Gothenburg
-  ('ST006', 'Ulrika',  'Xander',   'PD006'),
-  ('ST007', 'Oskar',   'Adminsson','PD007'),
-  ('ST008', 'Lina',    'Bokfor',   'PD008'),
-  ('ST009', 'Alva',    'Sekret',   'PD009'),
-  ('ST010', 'Nils',    'Larare',   'PD010');
+  ('ST006', 'Ulrika', 'Xander', 'PD006'),
+  ('ST007', 'Oskar', 'Adminsson','PD007'),
+  ('ST008', 'Lina', 'Bokfor', 'PD008'),
+  ('ST009', 'Alva', 'Sekret', 'PD009'),
+  ('ST010', 'Nils', 'Larare', 'PD010');
 
 /* ---------------------------------------------------------
    6) Consultants (4)
    --------------------------------------------------------- */
 INSERT INTO consultant (consultant_id, first_name, last_name, private_details_id, consultant_company_id) VALUES
-  ('CN001', 'Karin', 'Data',   'PD011', 'CC001'),
-  ('CN002', 'Mikael','Pipes',  'PD012', 'CC001'),
-  ('CN003', 'Elsa',  'Design', 'PD013', 'CC002'),
-  ('CN004', 'Arvid', 'UX',     'PD014', 'CC002');
+  ('CN001', 'Karin', 'Data', 'PD011', 'CC001'),
+  ('CN002', 'Mikael','Pipes', 'PD012', 'CC001'),
+  ('CN003', 'Elsa', 'Design', 'PD013', 'CC002'),
+  ('CN004', 'Arvid', 'UX', 'PD014', 'CC002');
 
 /* ---------------------------------------------------------
    7) Students
    --------------------------------------------------------- */
 INSERT INTO student (student_id, first_name, last_name, private_details_id) VALUES
-  ('SU001', 'Amina',   'Berg',   'PD101'),
-  ('SU002', 'Noah',    'Lind',   'PD102'),
-  ('SU003', 'Ella',    'Svens',  'PD103'),
+  ('SU001', 'Amina', 'Berg', 'PD101'),
+  ('SU002', 'Noah', 'Lind', 'PD102'),
+  ('SU003', 'Ella', 'Svens', 'PD103'),
   ('SU004', 'William', 'Nystrom','PD104'),
-  ('SU005', 'Olivia',  'Dahl',   'PD105'),
-  ('SU006', 'Lucas',   'Ek',     'PD106'),
-  ('SU007', 'Hanna',   'Holm',   'PD107'),
-  ('SU008', 'Hugo',    'Fors',   'PD108'),
-  ('SU009', 'Freja',   'Wall',   'PD109'),
-  ('SU010', 'Adam',    'Sund',   'PD110'),
-  ('SU011', 'Stella',  'Borg',   'PD111'),
-  ('SU012', 'Leo',     'Kvist',  'PD112'),
+  ('SU005', 'Olivia', 'Dahl', 'PD105'),
+  ('SU006', 'Lucas', 'Ek', 'PD106'),
+  ('SU007', 'Hanna', 'Holm', 'PD107'),
+  ('SU008', 'Hugo', 'Fors', 'PD108'),
+  ('SU009', 'Freja', 'Wall', 'PD109'),
+  ('SU010', 'Adam', 'Sund', 'PD110'),
+  ('SU011', 'Stella', 'Borg', 'PD111'),
+  ('SU012', 'Leo', 'Kvist', 'PD112'),
   -- Standalone-only
-  ('SU101', 'Sana',    'Remote', 'PD201'),
-  ('SU102', 'Viktor',  'Remote', 'PD202'),
-  ('SU103', 'Mira',    'Remote', 'PD203');
+  ('SU101', 'Sana', 'Berg', 'PD201'),
+  ('SU102', 'Viktor', 'Orban', 'PD202'),
+  ('SU103', 'Mira', 'Naka', 'PD203');
 
 /* ---------------------------------------------------------
    8) Courses (400 per program; plus 1 standalone course=100)
    --------------------------------------------------------- */
 INSERT INTO course (course_id, program_id, course_code, course_name, course_credits, course_description) VALUES
   -- Data Engineering: 4 x 100 = 400
-  ('DE101', 'DE', 'DE-101', 'SQL & Relational Modeling',      100, 'Core SQL and normalization.'),
+  ('DE101', 'DE', 'DE-101', 'SQL & Relational Modeling', 100, 'Core SQL and normalization.'),
   ('DE102', 'DE', 'DE-102', 'Data Pipelines & Orchestration', 100, 'Batch and workflow fundamentals.'),
-  ('DE103', 'DE', 'DE-103', 'Data Warehousing',               100, 'Dimensional modeling and BI foundations.'),
-  ('DE104', 'DE', 'DE-104', 'Cloud & DevOps for Data',        100, 'Containers, CI/CD, and deployment basics.'),
+  ('DE103', 'DE', 'DE-103', 'Data Warehousing', 100, 'Dimensional modeling and BI foundations.'),
+  ('DE104', 'DE', 'DE-104', 'Cloud & DevOps for Data', 100, 'Containers, CI/CD, and deployment basics.'),
 
   -- UX Design: 4 x 100 = 400
-  ('UX101', 'UX', 'UX-101', 'User Research Methods',          100, 'Qualitative and quantitative research.'),
-  ('UX102', 'UX', 'UX-102', 'Interaction Design',             100, 'Flows, information architecture, UI patterns.'),
-  ('UX103', 'UX', 'UX-103', 'Prototyping & Testing',          100, 'Wireframes, prototypes, usability testing.'),
-  ('UX104', 'UX', 'UX-104', 'Product Design Delivery',        100, 'Delivery practices, handoff, and collaboration.'),
+  ('UX101', 'UX', 'UX-101', 'User Research Methods', 100, 'Qualitative and quantitative research.'),
+  ('UX102', 'UX', 'UX-102', 'Interaction Design', 100, 'Flows, information architecture, UI patterns.'),
+  ('UX103', 'UX', 'UX-103', 'Prototyping & Testing', 100, 'Wireframes, prototypes, usability testing.'),
+  ('UX104', 'UX', 'UX-104', 'Product Design Delivery', 100, 'Delivery practices, handoff, and collaboration.'),
 
   -- Standalone course (program_id NULL)
   ('SC100', NULL, 'SC-100', 'Standalone: Data Literacy (Distance)', 100, 'Standalone distance course not tied to a program.');
@@ -161,17 +161,17 @@ INSERT INTO class (class_id, program_id, campus_id, class_name, class_code, acad
 INSERT INTO staff_contract (staff_contract_id, staff_id, role, contract_type, start_date, end_date, status, salary, campus_id) VALUES
   -- Stockholm staff
   ('SCT01', 'ST001', 'PROGRAM_MANAGER', 'PERMANENT', '2023-09-01', '2027-08-31', 'ACTIVE', 65000.00, 'STH'),
-  ('SCT02', 'ST002', 'ADMINISTRATOR',   'PERMANENT', '2023-09-01', '2027-08-31', 'ACTIVE', 42000.00, 'STH'),
-  ('SCT03', 'ST003', 'ACCOUNTANT',      'PERMANENT', '2023-09-01', '2027-08-31', 'ACTIVE', 52000.00, 'STH'),
-  ('SCT04', 'ST004', 'SECRETARY',       'PERMANENT', '2023-09-01', '2027-08-31', 'ACTIVE', 38000.00, 'STH'),
-  ('SCT05', 'ST005', 'INSTRUCTOR',      'PERMANENT', '2023-09-01', '2027-08-31', 'ACTIVE', 50000.00, 'STH'),
+  ('SCT02', 'ST002', 'ADMINISTRATOR', 'PERMANENT', '2023-09-01', '2027-08-31', 'ACTIVE', 42000.00, 'STH'),
+  ('SCT03', 'ST003', 'ACCOUNTANT', 'PERMANENT', '2023-09-01', '2027-08-31', 'ACTIVE', 52000.00, 'STH'),
+  ('SCT04', 'ST004', 'SECRETARY', 'PERMANENT', '2023-09-01', '2027-08-31', 'ACTIVE', 38000.00, 'STH'),
+  ('SCT05', 'ST005', 'INSTRUCTOR', 'PERMANENT', '2023-09-01', '2027-08-31', 'ACTIVE', 50000.00, 'STH'),
 
   -- Gothenburg staff
   ('SCT06', 'ST006', 'PROGRAM_MANAGER', 'PERMANENT', '2023-09-01', '2027-08-31', 'ACTIVE', 65000.00, 'GOT'),
-  ('SCT07', 'ST007', 'ADMINISTRATOR',   'PERMANENT', '2023-09-01', '2027-08-31', 'ACTIVE', 42000.00, 'GOT'),
-  ('SCT08', 'ST008', 'ACCOUNTANT',      'PERMANENT', '2023-09-01', '2027-08-31', 'ACTIVE', 52000.00, 'GOT'),
-  ('SCT09', 'ST009', 'SECRETARY',       'PERMANENT', '2023-09-01', '2027-08-31', 'ACTIVE', 38000.00, 'GOT'),
-  ('SCT10', 'ST010', 'INSTRUCTOR',      'PERMANENT', '2023-09-01', '2027-08-31', 'ACTIVE', 50000.00, 'GOT');
+  ('SCT07', 'ST007', 'ADMINISTRATOR', 'PERMANENT', '2023-09-01', '2027-08-31', 'ACTIVE', 42000.00, 'GOT'),
+  ('SCT08', 'ST008', 'ACCOUNTANT', 'PERMANENT', '2023-09-01', '2027-08-31', 'ACTIVE', 52000.00, 'GOT'),
+  ('SCT09', 'ST009', 'SECRETARY', 'PERMANENT', '2023-09-01', '2027-08-31', 'ACTIVE', 38000.00, 'GOT'),
+  ('SCT10', 'ST010', 'INSTRUCTOR', 'PERMANENT', '2023-09-01', '2027-08-31', 'ACTIVE', 50000.00, 'GOT');
 
 /* ---------------------------------------------------------
    11) Consultant contracts (ACTIVE; unique-per-consultant where status='ACTIVE')
