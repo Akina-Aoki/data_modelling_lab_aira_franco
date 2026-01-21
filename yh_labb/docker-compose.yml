@@ -1,27 +1,30 @@
 services:
-  postgres:  # one docker container
+  postgres:
     image: postgres:16
     container_name: yrkesco_postgres
     restart: always
+
     env_file:
-      - .env  #prevent misconfiguration
+      - .env
+
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
-    ports: 
-      - "${POSTGRES_PORT}:5432" # port mapping between host machine and container
+
+    ports:
+      - "${POSTGRES_PORT}:5432"
+
     volumes:
-      - postgres_data:/var/lib/postgresql/data # DEFAULT: named volume created under volumes section (1st way of persisting/saving data)
-      - ./sql:/docker-entrypoint-initdb.d:ro # # SQL initialization scripts (run ONCE, in order)
+      - postgres_data:/var/lib/postgresql/data
+      - ./sql/init:/docker-entrypoint-initdb.d:ro
       - ./sql:/sql:ro
-    healthcheck: # an extra check to see if the postgreSQL is initiated inside the container
+
+    healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres} -d ${POSTGRES_DB}"]
       interval: 5s
       retries: 5
       timeout: 3s
 
-  # visualization here can be added?
-
-volumes: # can set up several volume
-  postgres_data:  # saved volume
+volumes:
+  postgres_data:
