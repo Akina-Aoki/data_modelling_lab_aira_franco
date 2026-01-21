@@ -11,7 +11,7 @@ SELECT
 
 FROM student s
 JOIN private_details pd ON s.private_details_id = pd.private_details_id
-JOIN enrollment e ON s.student_id = e.student_id
+LEFT JOIN enrollment e ON s.student_id = e.student_id
 ORDER BY s.first_name, s.last_name;
 
 
