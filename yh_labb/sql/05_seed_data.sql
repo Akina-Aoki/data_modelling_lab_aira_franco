@@ -134,7 +134,7 @@ INSERT INTO course (course_id, program_id, course_code, course_name, course_cred
   ('UX104', 'UX', 'UX-104', 'Product Design Delivery', 100, 'Delivery practices, handoff, and collaboration.'),
 
   -- Standalone course (program_id NULL)
-  ('SC100', NULL, 'SC-100', 'Standalone: Data Literacy (Distance)', 100, 'Standalone distance course not tied to a program.');
+  ('SC100', 'DE', 'SC-100', 'Standalone: Data Literacy (Distance)', 100, 'Standalone distance course not tied to a program.');
 
 /* ---------------------------------------------------------
    9) Classes (3 cohorts per program; plus 1 distance cohort for standalone)
