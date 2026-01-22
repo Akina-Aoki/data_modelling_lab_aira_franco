@@ -60,6 +60,7 @@ Ports: 0.0.0.0:5432->5432/tcp```
 
 - schema check
     - `\dt`
+    
 ### Run sql scripts:
 ```
     - \i /sql/03_queries.sql

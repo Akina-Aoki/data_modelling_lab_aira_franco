@@ -90,6 +90,25 @@ CREATE TABLE IF NOT EXISTS class (
 );
 
 /* -------------------------
+   CLASS BUSINESS RULES
+   ------------------------- */
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1
+    FROM pg_constraint
+    WHERE conname = 'chk_standalone_class'
+  ) THEN
+    ALTER TABLE class
+    ADD CONSTRAINT chk_standalone_class
+    CHECK (
+      program_id IS NULL
+      OR class_code NOT LIKE 'SC-%'
+    );
+  END IF;
+END $$;
+
+/* -------------------------
    CONTRACTS
    ------------------------- */
 CREATE TABLE IF NOT EXISTS staff_contract (

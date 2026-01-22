@@ -1,22 +1,6 @@
-/* OK (Query on the video presentation)
-Query 1: Students (name) + Contact Info (personal_identity_number, email)
-Who are the students, how can we contact them?
-*/
-SELECT
-    s.student_id,
-    s.first_name,
-    s.last_name,
-    pd.personal_identity_number,
-    pd.email
 
-FROM student s
-JOIN private_details pd ON s.private_details_id = pd.private_details_id
-LEFT JOIN enrollment e ON s.student_id = e.student_id
-ORDER BY s.first_name, s.last_name;
-
-
-/* !!!! Standlone fix
-Query 2: Stundets + class + program enrolled in
+/* OK
+Query 1: Stundets + class + program enrolled in
 Who are the students and which class and program are they enrolled in?
 */
 SELECT
@@ -28,7 +12,7 @@ SELECT
 FROM enrollment e
 JOIN student s ON e.student_id = s.student_id
 JOIN class c ON e.class_id = c.class_id
-JOIN program p ON c.program_id = p.program_id
+LEFT JOIN program p ON c.program_id = p.program_id
 WHERE e.status = 'ACTIVE'
 ORDER BY
     p.program_name,
@@ -37,7 +21,7 @@ ORDER BY
     s.first_name;
 
 /* OK
-Query 3: Consultants (name) + Contact Info (email)
+Query 2: Consultants (name) + Contact Info (email)
 Who are the consultants, how can we contact them?
 */
 SELECT 
@@ -53,35 +37,8 @@ ORDER BY
     c.first_name;
 
 
-/* (Query on the video)
-Query 4: Consultants + consultant company details (organization number, F-tax status, address, and hourly rate) + Contract Type
-What are the company details of the consultans and their contract types?
-*/
-/* Query 4: Consultants + company + contract details */
-SELECT
-    c.first_name,
-    c.last_name,
-    cc.company_name,
-    cc.organization_number,
-    cc.f_tax_status,
-    cc.address,
-    con.role,
-    con.contract_type,
-    con.hourly_rate,
-    con.campus_id
-FROM consultant c
-JOIN consultant_company cc
-  ON c.consultant_company_id = cc.consultant_company_id
-JOIN consultant_contract con
-  ON c.consultant_id = con.consultant_id
-WHERE con.status = 'ACTIVE'
-ORDER BY
-    c.first_name,
-    c.last_name,
-    cc.company_name;
-
 /* OK
-Query 5: Consultants (first_name, last_name) + Course (course_name) + Program (program_name) + Campus (campus_name)
+Query 3: Consultants (first_name, last_name) + Course (course_name) + Program (program_name) + Campus (campus_name) + city
 Which courses and programs do consultants teach and which campus?
 */
 SELECT
@@ -106,7 +63,7 @@ ORDER BY
 
 
 /* OK
-Query 6: Staffs (name) + Contact Info (personal_identity_number, email)
+Query 4: Staffs (name) + from Private Details Table = Contact Info (personal_identity_number, email)
 Who are the staffs, how can we contact them?
 */
 SELECT
@@ -121,7 +78,7 @@ ORDER BY
     s.last_name;
 
 /* OK
-Query 7: Planned employment of permanent instructors (BONUS)
+Query 5: Planned employment of permanent instructors (BONUS)
 Staffs (INSTRUCTORS) and their contract information, roles, campus, date,
 */
 SELECT
@@ -148,7 +105,7 @@ ORDER BY
 
 
 /* OK
-Query 8: Staff by Campus and Role
+Query 6: Staff by Campus and Role
 Who works at each campus and in what role?
 */
 SELECT
@@ -169,7 +126,7 @@ ORDER BY
 
 
 /* OK
-IMPORTANT: Query 9: Program Managers and their personal information
+IMPORTANT BONUS: Query 7: Program Managers and their personal information
 Who are the staffs that are program Managers in all campus and which classes are they in charge of? (Asnwer 3 classes per PM)
 */
 SELECT
@@ -202,7 +159,7 @@ ORDER BY
 
 
 /* OK
-Query 10: Courses per Program (Curriculum View)
+Query 8: Courses per Program (Curriculum View)
 What courses belong to each program?
 */
 SELECT
@@ -220,7 +177,7 @@ ORDER BY
 
 
 /* OK
-Query 11: Classes per Program (Class View)
+Query 9: Classes per Program (Class View)
 What classes belong to each program?
 */
 SELECT
@@ -242,7 +199,7 @@ ORDER BY
 
 /* OK 
 Program stand alone problem
-Query 12: Standalone Courses
+Query 10: Standalone Courses
 Which courses are not tied to any program?
 */
 SELECT
@@ -257,7 +214,7 @@ ORDER BY
 
 
 /* OK
-Query 13: Course Credits Validation. Each Program has 400 credits. Standalone is 100.*/
+Query 11: Course Credits Validation. Each Program has 400 credits. Standalone is 100.*/
 SELECT
     program_id,
     SUM(course_credits) AS total_credits
@@ -265,3 +222,5 @@ FROM course
 WHERE program_id IS NOT NULL
 GROUP BY program_id
 ORDER BY program_id;
+
+
