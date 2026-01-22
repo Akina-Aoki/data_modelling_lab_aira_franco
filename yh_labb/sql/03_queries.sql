@@ -1,4 +1,3 @@
-
 /* OK
 Query 1.a (paste): Stundets + class + program enrolled in
 Who are the students and which class and program are they enrolled in?
@@ -96,34 +95,8 @@ ORDER BY
     c.last_name,
     c.first_name;
 
-
 /* OK
-Query 3: Consultants (first_name, last_name) + Course (course_name) + Program (program_name) + Campus (campus_name) + city
-Which courses and programs do consultants teach and which campus?
-*/
-SELECT
-    c.first_name,
-    c.last_name,
-    crs.course_name,
-    p.program_name,
-    ca.campus_name,
-    ca.city
-FROM consultant_teach ct
-JOIN consultant c ON ct.consultant_id = c.consultant_id
-JOIN course crs ON ct.course_id = crs.course_id
-LEFT JOIN program p ON crs.program_id = p.program_id  -- LEFT JOIN because standalone course has NULL program_id
-JOIN consultant_contract cc ON c.consultant_id = cc.consultant_id
-JOIN campus ca ON cc.campus_id = ca.campus_id
-WHERE cc.status = 'ACTIVE'
-ORDER BY
-    c.first_name,
-    c.last_name,
-    p.program_name,
-    crs.course_name;
-
-
-/* OK
-Query 4: Staffs (name) + from Private Details Table = Contact Info (personal_identity_number, email)
+Query 3: Staffs (name) + from Private Details Table = Contact Info (personal_identity_number, email)
 Who are the staffs, their personal identity number, how can we contact them?
 */
 SELECT
@@ -136,6 +109,35 @@ JOIN private_details pd ON s.private_details_id = pd.private_details_id
 ORDER BY
     s.first_name,
     s.last_name;
+
+
+/* OK
+Query 4: Consultants (first_name, last_name) + Course (course_name) + Program (program_name) + Campus (campus_name) + city
+Which courses and programs do consultants teach and which campus?
+*/
+SELECT
+    c.consultant_id,
+    c.first_name,
+    c.last_name,
+    c.consultant_company,
+    crs.course_name,
+    p.program_name,
+    ca.campus_name,
+    ca.city
+FROM consultant_teach ct
+JOIN consultant c ON ct.consultant_id = c.consultant_id
+JOIN course crs ON ct.course_id = crs.course_id
+LEFT JOIN program p ON crs.program_id = p.program_id  -- LEFT JOIN because standalone course has NULL program_id
+JOIN consultant_contract cc ON c.consultant_id = cc.consultant_id
+JOIN campus ca ON cc.campus_id = ca.campus_id
+WHERE cc.status = 'ACTIVE'
+ORDER BY
+    c.consultant_id,
+    c.first_name,
+    c.last_name,
+    p.program_name,
+    crs.course_name;
+
 
 /* OK
 Query 5: Planned employment of permanent instructors (BONUS)

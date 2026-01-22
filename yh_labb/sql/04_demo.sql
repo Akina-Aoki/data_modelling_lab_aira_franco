@@ -1,16 +1,4 @@
--- Sanity checks
-SELECT COUNT(*) AS student_count FROM student;
-SELECT COUNT(*) AS active_enrollment FROM enrollment WHERE status='ACTIVE';
-SELECT COUNT(*) AS completed_enrollment FROM enrollment WHERE status='COMPLETED';
-SELECT COUNT(*) AS withdrawn_enrollment FROM enrollment WHERE status='WITHDRAWN';
-
--- Business rule proof of 3 programs per Program Manager
-SELECT staff_contract_id, COUNT(*) 
-FROM program_manager_management
-GROUP BY staff_contract_id;
-
-/* (Query on the video presentation)
-Query: Students (name) + Contact Info (personal_identity_number, email)
+/* (Query on the video) Students (name) + Contact Info (personal_identity_number, email)
 Who are the students, how can we contact them?
 */
 SELECT
@@ -24,8 +12,6 @@ FROM student s
 JOIN private_details pd ON s.private_details_id = pd.private_details_id
 LEFT JOIN enrollment e ON s.student_id = e.student_id
 ORDER BY s.first_name, s.last_name;
-
-
 
 /* (Query on the video)
 Query: Consultants + consultant company details (organization number, F-tax status, address, and hourly rate) + Contract Type
@@ -53,3 +39,10 @@ ORDER BY
     c.first_name,
     c.last_name,
     cc.company_name;
+
+
+/* =========================================================
+    Demonstrate DB integrity, relationships,
+   constraints, indexes, triggers, and a realistic scenario.
+   Scenario: New campus Uppsala + DE Cohort 2026–2028
+   ========================================================= */
