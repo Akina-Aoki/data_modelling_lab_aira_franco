@@ -135,7 +135,7 @@ VALUES
   ('UX103','UX','UX-103','Prototyping & Testing',100,'Wireframes and usability testing.'),
   ('UX104','UX','UX-104','Product Design Delivery',100,'Delivery and collaboration.'),
 
-  ('SC100',NULL,'SC-100','Standalone: Data Literacy (Distance)',100,'Standalone distance course.')
+  ('SC100', NULL,'SC-100','Standalone: Data Literacy (Distance)',100,'Standalone distance course.')
 ON CONFLICT (course_id) DO NOTHING;
 
 /* -------------------------
@@ -152,7 +152,7 @@ VALUES
   ('UX2426','UX','STH','UX Cohort 2024-2026','UX-24-26','2024-2026'),
   ('UX2527','UX','GOT','UX Cohort 2025-2027','UX-25-27','2025-2027'),
 
-  ('SC2324','DE','STH','Standalone Distance Cohort','SC-23-24','2023-2024')
+  ('SC2324', NULL,'STH','Standalone Distance Cohort','SC-23-24','2023-2024')
 ON CONFLICT (class_id) DO NOTHING;
 
 /* -------------------------
