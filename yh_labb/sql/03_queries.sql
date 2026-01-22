@@ -1,14 +1,18 @@
 
 /* OK
-Query 1: Stundets + class + program enrolled in
+Query 1.a (paste): Stundets + class + program enrolled in
 Who are the students and which class and program are they enrolled in?
+Result: 3 students enrolled in each course that are ACTIVE
 */
 SELECT
     s.student_id,
     s.first_name,
     s.last_name,
     c.class_name,
-    program_name
+    c.academic_year,
+    p.program_name,
+    e.status
+
 FROM enrollment e
 JOIN student s ON e.student_id = s.student_id
 JOIN class c ON e.class_id = c.class_id
@@ -19,6 +23,62 @@ ORDER BY
     c.class_name,
     s.last_name,
     s.first_name;
+
+/* OK
+Query 1.b (paste): Stundets + class + program enrolled in
+Who are the students and which class and program are they enrolled in?
+Result: 3 students enrolled in each course that have graduated (COMPLETED)
+*/
+SELECT
+    s.student_id,
+    s.first_name,
+    s.last_name,
+    c.class_name,
+    c.academic_year,
+    p.program_name,
+    e.status
+FROM enrollment e
+JOIN student s ON e.student_id = s.student_id
+JOIN class c ON e.class_id = c.class_id
+LEFT JOIN program p ON c.program_id = p.program_id
+WHERE e.status = 'COMPLETED'
+ORDER BY
+    p.program_name,
+    c.class_name,
+    s.last_name,
+    s.first_name;
+
+
+/* OK
+Query 1.c (paste): Stundets + class + program enrolled in
+Who are the students and which class and program are they enrolled in?
+Result: 3 students enrolled in each course that have (WITHDRAWN)
+*/
+SELECT
+    s.student_id,
+    s.first_name,
+    s.last_name,
+    c.class_name,
+    c.academic_year,
+    p.program_name,
+    e.status
+FROM enrollment e
+JOIN student s ON e.student_id = s.student_id
+JOIN class c ON e.class_id = c.class_id
+LEFT JOIN program p ON c.program_id = p.program_id
+WHERE e.status = 'WITHDRAWN'
+ORDER BY
+    p.program_name,
+    c.class_name,
+    s.last_name,
+    s.first_name;
+
+
+-- Query 1.d: Sanity checks
+SELECT COUNT(*) AS student_count FROM student;
+SELECT COUNT(*) AS active_enrollment FROM enrollment WHERE status='ACTIVE';
+SELECT COUNT(*) AS completed_enrollment FROM enrollment WHERE status='COMPLETED';
+SELECT COUNT(*) AS withdrawn_enrollment FROM enrollment WHERE status='WITHDRAWN';
 
 /* OK
 Query 2: Consultants (name) + Contact Info (email)
@@ -64,7 +124,7 @@ ORDER BY
 
 /* OK
 Query 4: Staffs (name) + from Private Details Table = Contact Info (personal_identity_number, email)
-Who are the staffs, how can we contact them?
+Who are the staffs, their personal identity number, how can we contact them?
 */
 SELECT
     s.first_name,
@@ -126,36 +186,31 @@ ORDER BY
 
 
 /* OK
-IMPORTANT BONUS: Query 7: Program Managers and their personal information
+IMPORTANT BONUS: Query 7: Program Managers: 
 Who are the staffs that are program Managers in all campus and which classes are they in charge of? (Asnwer 3 classes per PM)
 */
 SELECT
-    s.first_name,
-    s.last_name,
-    sc.role,
-    ca.campus_name,
-    cl.class_name,
-    cl.program_id,
-    cl.academic_year
-
+  s.first_name,
+  s.last_name,
+  sc.staff_contract_id,
+  sc.role,
+  p.program_name,
+  c.class_name,
+  c.academic_year
 FROM program_manager_management pmm
-JOIN staff_contract sc ON pmm.staff_contract_id = sc.staff_contract_id
-JOIN staff s ON sc.staff_id = s.staff_id
-JOIN campus ca ON sc.campus_id = ca.campus_id 
-JOIN class cl ON pmm.class_id = cl.class_id
-WHERE sc.role = 'PROGRAM_MANAGER'
-    AND sc.status = 'ACTIVE'
-    AND sc.staff_contract_id IN (
-        SELECT staff_contract_id
-        FROM program_manager_management
-        GROUP BY staff_contract_id
-        HAVING  COUNT(class_id) = 3
-    )
+JOIN staff_contract sc
+  ON pmm.staff_contract_id = sc.staff_contract_id
+JOIN staff s
+  ON sc.staff_id = s.staff_id
+JOIN class c
+  ON pmm.class_id = c.class_id
+JOIN program p
+  ON c.program_id = p.program_id
 ORDER BY
-    ca.campus_name,
-    s.first_name,
-    s.last_name,
-    cl.academic_year;
+  s.last_name,
+  s.first_name,
+  c.academic_year;
+
 
 
 /* OK
@@ -214,7 +269,7 @@ ORDER BY
 
 
 /* OK
-Query 11: Course Credits Validation. Each Program has 400 credits. Standalone is 100.*/
+Query 11: Course (belongs to a program) Credits Validation. Each Program has 400 credits. Standalone is 100.*/
 SELECT
     program_id,
     SUM(course_credits) AS total_credits

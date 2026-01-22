@@ -60,7 +60,7 @@ Ports: 0.0.0.0:5432->5432/tcp```
 
 - schema check
     - `\dt`
-    
+
 ### Run sql scripts:
 ```
     - \i /sql/03_queries.sql
@@ -69,7 +69,7 @@ Ports: 0.0.0.0:5432->5432/tcp```
 
 ## Re-run scripts in psql
 ### Option A: Rerun ust that script
-- After cleaning up typos, run `\i /sql/06_dml_queries.sql` to just re run that script.
+- After cleaning up typos, run `the folder name` to just re run that script.
 - `\! clear` or CTRL + L to clear terminal.
 
 ### Option B: Full clean reset
