@@ -1,3 +1,18 @@
+/* (Query on the video) Students (name) + Contact Info (personal_identity_number, email)
+Who are the students, how can we contact them?
+*/
+SELECT
+    s.student_id,
+    s.first_name,
+    s.last_name,
+    pd.personal_identity_number,
+    pd.email
+
+FROM student s
+JOIN private_details pd ON s.private_details_id = pd.private_details_id
+LEFT JOIN enrollment e ON s.student_id = e.student_id
+ORDER BY s.first_name, s.last_name;
+
 /* OK
 Query 1.a (paste): Stundets + class + program enrolled in
 Who are the students and which class and program are they enrolled in?
@@ -80,7 +95,7 @@ SELECT COUNT(*) AS completed_enrollment FROM enrollment WHERE status='COMPLETED'
 SELECT COUNT(*) AS withdrawn_enrollment FROM enrollment WHERE status='WITHDRAWN';
 
 /* OK
-Query 2: Consultants (name) + Contact Info (email)
+Query 2a: Consultants (name) + Contact Info (email)
 Who are the consultants, how can we contact them?
 */
 SELECT 
@@ -94,6 +109,32 @@ JOIN private_details pd ON c.private_details_id = pd.private_details_id
 ORDER BY
     c.last_name,
     c.first_name;
+
+/*
+Query 2b: Consultants + consultant company details (organization number, F-tax status, address, and hourly rate) + Contract Type
+What are the company details of the consultans and their contract types?
+*/
+SELECT
+    c.first_name,
+    c.last_name,
+    cc.company_name,
+    cc.organization_number,
+    cc.f_tax_status,
+    cc.address,
+    con.role,
+    con.contract_type,
+    con.hourly_rate,
+    con.campus_id
+FROM consultant c
+JOIN consultant_company cc
+  ON c.consultant_company_id = cc.consultant_company_id
+JOIN consultant_contract con
+  ON c.consultant_id = con.consultant_id
+WHERE con.status = 'ACTIVE'
+ORDER BY
+    c.first_name,
+    c.last_name,
+    cc.company_name;
 
 /* OK
 Query 3: Staffs (name) + from Private Details Table = Contact Info (personal_identity_number, email)
@@ -112,32 +153,27 @@ ORDER BY
 
 
 /* OK
-Query 4: Consultants (first_name, last_name) + Course (course_name) + Program (program_name) + Campus (campus_name) + city
-Which courses and programs do consultants teach and which campus?
+Query 4: Staff by Campus and Role
+Who works at each campus and in what role?
 */
 SELECT
-    c.consultant_id,
-    c.first_name,
-    c.last_name,
-    c.consultant_company,
-    crs.course_name,
-    p.program_name,
+    s.first_name,
+    s.last_name,
+    sc.role,
     ca.campus_name,
-    ca.city
-FROM consultant_teach ct
-JOIN consultant c ON ct.consultant_id = c.consultant_id
-JOIN course crs ON ct.course_id = crs.course_id
-LEFT JOIN program p ON crs.program_id = p.program_id  -- LEFT JOIN because standalone course has NULL program_id
-JOIN consultant_contract cc ON c.consultant_id = cc.consultant_id
-JOIN campus ca ON cc.campus_id = ca.campus_id
-WHERE cc.status = 'ACTIVE'
-ORDER BY
-    c.consultant_id,
-    c.first_name,
-    c.last_name,
-    p.program_name,
-    crs.course_name;
+    sc.role,
+    sc.status,
+    sc.contract_type
 
+FROM staff s
+JOIN staff_contract sc ON s.staff_id = sc.staff_id
+JOIN campus ca ON sc.campus_id = ca.campus_id
+WHERE sc.status IN ('ACTIVE', 'PAUSED')
+ORDER BY
+    ca.campus_name,
+    sc.role,
+    s.first_name,
+    s.last_name;
 
 /* OK
 Query 5: Planned employment of permanent instructors (BONUS)
@@ -157,34 +193,42 @@ SELECT
 FROM staff s
 JOIN staff_contract sc ON s.staff_id = sc.staff_id
 JOIN campus ca ON sc.campus_id = ca.campus_id
-WHERE sc.contract_type = 'PERMANENT'
+WHERE sc.contract_type = 'PAUSED'
 AND sc.role = 'INSTRUCTOR'
-AND sc.status = 'ACTIVE'
+AND sc.status = 'PAUSED'
 ORDER BY
     ca.campus_name,
     sc.start_date,
     s.last_name;
 
 
+
 /* OK
-Query 6: Staff by Campus and Role
-Who works at each campus and in what role?
+Query 6: Consultants (first_name, last_name) + Course (course_name) + Program (program_name) + Campus (campus_name) + city
+Which courses and programs do consultants teach and which campus?
 */
 SELECT
-    s.first_name,
-    s.last_name,
-    sc.role,
-    ca.campus_name
-
-FROM staff s
-JOIN staff_contract sc ON s.staff_id = sc.staff_id
-JOIN campus ca ON sc.campus_id = ca.campus_id
-WHERE sc.status = 'ACTIVE'
-ORDER BY
+    c.consultant_id,
+    c.first_name,
+    c.last_name,
+    c.consultant_company_id,
+    crs.course_name,
+    p.program_name,
     ca.campus_name,
-    sc.role,
-    s.first_name,
-    s.last_name;
+    ca.city
+FROM consultant_teach ct
+JOIN consultant c ON ct.consultant_id = c.consultant_id
+JOIN course crs ON ct.course_id = crs.course_id
+LEFT JOIN program p ON crs.program_id = p.program_id  -- LEFT JOIN because standalone course has NULL program_id
+JOIN consultant_contract cc ON c.consultant_id = cc.consultant_id
+JOIN campus ca ON cc.campus_id = ca.campus_id
+WHERE cc.status = 'ACTIVE'
+ORDER BY
+    c.consultant_id,
+    c.first_name,
+    c.last_name,
+    p.program_name,
+    crs.course_name;
 
 
 /* OK
@@ -213,6 +257,23 @@ ORDER BY
   s.first_name,
   c.academic_year;
 
+/* ========================================================= 
+VIOLATE PROGRAM MANAGER RULE:
+I want to try violate my constraints for the rule 1 Program Manager can manage 3 max classes. 
+I wanna see fif my constraint works.
+========================================================= */
+
+-- Before violating anything, confirm how many classes a Program Manager already manages.
+-- Use this for the integrity check later after violating rule
+SELECT
+  staff_contract_id,
+  COUNT(*) AS classes_managed
+FROM program_manager_management
+GROUP BY staff_contract_id;
+
+-- Attempt the invalid insert
+INSERT INTO program_manager_management (pm_management_id, staff_contract_id, class_id)
+VALUES ('PMM99', 'SCT01', 'UX2325');
 
 
 /* OK
@@ -256,7 +317,7 @@ ORDER BY
 
 /* OK 
 Program stand alone problem
-Query 10: Standalone Courses
+Query 10a: Standalone Courses
 Which courses are not tied to any program?
 */
 SELECT
@@ -268,6 +329,26 @@ FROM course c
 WHERE c.program_id IS NULL
 ORDER BY
     c.course_code;
+
+/* Query 10b standalone + students*/
+SELECT
+    cl.class_id,
+    cl.class_name,
+    cl.class_code,
+    s.student_id,
+    s.first_name,
+    s.last_name
+FROM class cl
+JOIN enrollment e
+    ON cl.class_id = e.class_id
+JOIN student s
+    ON e.student_id = s.student_id
+WHERE cl.program_id IS NULL
+  AND e.status = 'ACTIVE'
+ORDER BY
+    cl.class_code,
+    s.last_name,
+    s.first_name;
 
 
 /* OK
