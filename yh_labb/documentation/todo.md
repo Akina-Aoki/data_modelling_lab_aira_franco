@@ -30,3 +30,7 @@ In Query number 5: Standalone shows correctly
 IMPORTANT TASK: TEST THAT MY CONSTRAINTS ARE VALID AND TRIGGERS INVALID INPUTS
 - 1 Program Manager = 3 Classes MAX. Constraint violated. Verified after. GOOD!
 -----------+-------------+--------------------------------------+----------------
+
+Task: DEMO Uppsala Campus
+Check if I can add new Campus and related tables and check all constraints are triggered.
+-----------+-------------+--------------------------------------+----------------

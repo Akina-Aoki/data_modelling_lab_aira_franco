@@ -1,48 +1,28 @@
-/* (Query on the video) Students (name) + Contact Info (personal_identity_number, email)
-Who are the students, how can we contact them?
-*/
-SELECT
-    s.student_id,
-    s.first_name,
-    s.last_name,
-    pd.personal_identity_number,
-    pd.email
-
-FROM student s
-JOIN private_details pd ON s.private_details_id = pd.private_details_id
-LEFT JOIN enrollment e ON s.student_id = e.student_id
-ORDER BY s.first_name, s.last_name;
-
-/* (Query on the video)
-Query: Consultants + consultant company details (organization number, F-tax status, address, and hourly rate) + Contract Type
-What are the company details of the consultans and their contract types?
-*/
-/* Query : Consultants + company + contract details */
-SELECT
-    c.first_name,
-    c.last_name,
-    cc.company_name,
-    cc.organization_number,
-    cc.f_tax_status,
-    cc.address,
-    con.role,
-    con.contract_type,
-    con.hourly_rate,
-    con.campus_id
-FROM consultant c
-JOIN consultant_company cc
-  ON c.consultant_company_id = cc.consultant_company_id
-JOIN consultant_contract con
-  ON c.consultant_id = con.consultant_id
-WHERE con.status = 'ACTIVE'
-ORDER BY
-    c.first_name,
-    c.last_name,
-    cc.company_name;
-
-
 /* =========================================================
     Demonstrate DB integrity, relationships,
    constraints, indexes, triggers, and a realistic scenario.
    Scenario: New campus Uppsala + DE Cohort 2026–2028
    ========================================================= */
+
+-- A) Baseline sanity checks (shows existing DB is populated)
+SELECT COUNT(*) AS total_campuses FROM campus;
+SELECT COUNT(*) AS total_programs FROM program;
+SELECT COUNT(*) AS total_students FROM student;
+SELECT COUNT(*) AS total_staff_contracts FROM staff_contract;
+SELECT COUNT(*) AS pm_assignments FROM program_manager_management;
+
+-- B) Scenario setup: New campus in Uppsala
+INSERT INTO campus (campus_id, campus_name, city)
+VALUES ('UPP', 'Uppsala Campus', 'Uppsala')
+ON CONFLICT (campus_id) DO NOTHING;
+
+-- Verify campus exists
+SELECT * FROM campus WHERE campus_id = 'UPP';
+
+-- ---------------------------------------------------------
+-- C) New class: DE Cohort 2026–2028 at Uppsala campus
+-- (class.program_id allows NULL, but here it's DE)
+-- ---------------------------------------------------------
+INSERT INTO class (class_id, program_id, campus_id, class_name, class_code, academic_year)
+VALUES ('DE2628', 'DE', 'UPP', 'DE Cohort 2026-2028 (Uppsala)', 'DE-26-28-UPP', '2026-2028')
+ON CONFLICT (class_id) DO NOTHING;
