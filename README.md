@@ -1,64 +1,50 @@
 # data_modelling_lab_aira_franco
-The purpose of this lab is to apply knowledge of data modelling by designing a database for a vocational school.
+This repository contains an end-to-end data modeling and database implementation for YrkesCo, a vocational school operating across multiple campuses in Sweden. The project replaces fragmented Excel-based administration with a normalized, scalable, and auditable PostgreSQL data model, designed to support both business stakeholders and technical consumers.
 
-# Project Environment Set up
-- In bash terminal, run the following commands under folder of choice:
-```bash
-git clone <repository_url>
-```
-<br>
+The solution follows a model-driven architecture, progressing from business requirements → conceptual model → logical model → physical implementation, and is fully containerized using Docker Compose for reproducibility.
 
-- Set up and activate a virtual environment in VSCode Terminal:
-```bash
-python -m venv .venv
-```
+![Data Modeling Pipeline LAB](../assets/3.png)
 
-```bash
-source .venv/Scripts/activate
-```
+## Videos
+![Data Modelling Video  Model Overview + Implementation + Database Explanation](https://youtu.be/avt6hy4nbxQ)
 
-<br>
+## File Structure 
 
-- Validate that the virtual environment is activated and using the correct Python version:
-```bash
-python --version
-which python
-```
-
-<br>
-
-- (Optional) Set up Docker if not installed 
-[Instructions here](https://github.com/AIgineerAB/data_modeling_course/tree/main/05_setup_postgres)
-
-<br>
-
-- Add PostgreSQL Extension
-**PostgreSQL** extension by Chris Kolkman in VSCode
-- DBML Entity-Relationship Diagrams visualizer
-
-- pip install packages (in the repo instructions)
-
-```bash
-pip install ipykernel openpyxl pandas psycopg2-binary python-dotenv sqlalchemy
+````
+data_modelling_lab_aira_franco/
+├── .venv/                         
+├── assets/                        # Diagrams and images
+├── test_python_docker/            # Docker + Python testing
+│
+├── yh_labb/                       # Main lab folder
+│   ├── documentation/             # Business rules, documentations and notes
+│   ├── models/                    # Conceptual, logical and physical models
+│   └── sql/
+│       ├── init/
+│       │   ├── 01_ddl.sql         # Database schema
+│       │   ├── 02_seed.sql        # Test data, populate data
+│       │   ├── 03_queries.sql     # Demo queries
+│       │   └── 04_insert_new_cohort.sql # Demo INSERT new values queries
+│
+├── .env                           # Environment variables
+├── docker-compose.yml             # Docker setup
+├── requirements.txt               # Python dependencies
+├── .gitignore
+├── 00_env_setup.md                # Repository Setup instructions
+└── README.md
+* All scripts are idempotent and safe to re-run.
 ```
 
-#### This provisions:
-- `ipykernel` – Jupyter kernel integration for VS Code
-- `openpyxl` – Excel I/O
-- `pandas` – data manipulation layer
-- `psycopg2-binary` – PostgreSQL driver
-- `python-dotenv` – environment variable injection
-- `sqlalchemy` – ORM / SQL abstraction layer
+## Deliverables
+- Conceptual, logical, and physical data models
+- PostgreSQL implementation with enforced business rules
+- Dockerized execution environment
+- SQL demo queries proving data integrity
 
-- Might need updating, then run:
+Presentation PDF and video pitch (linked in repository)
 
-```bash
-python.exe -m pip install --upgrade pip
-```
-
-- Expected Output:
-
-```bash
-Successfully installed pip-25.3
-(.venv) 
-```
+## Dockerized Architecture
+- PostgreSQL runs in an isolated container
+- SQL initialization scripts are mounted read-only
+- Named volumes ensure data persistence across restarts
+- Environment variables are managed via `.env`
