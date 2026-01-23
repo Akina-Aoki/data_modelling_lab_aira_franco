@@ -31,8 +31,8 @@
 ```Container: yrkesco_postgres
 Status: Up (or Up (healthy))
 Ports: 0.0.0.0:5432->5432/tcp```
-
 - If see that → networking is fixed.
+
 - * Run to debugg if docker status is **restarting** `docker logs yrkesco_postgres --tail 50``
 - resulted chaning tag from latest to 16
 
@@ -63,7 +63,7 @@ Ports: 0.0.0.0:5432->5432/tcp```
 ### Run sql scripts:
 ```
     - \i /sql/03_queries.sql
-    - \i /sql/04_demo.sql
+    - \i /sql/04_insert_new_cohort.sql
 ```
 
 ## Re-run scripts in psql
@@ -89,10 +89,5 @@ psql -U yrkesco -d yrkesco_db`
 
 #### Step 5: Re run all files
 ```
-\i /sql/01_tables.sql
-\i /sql/02_indexes.sql
-\i /sql/03_functions.sql
-\i /sql/04_triggers.sql
-\i /sql/05_seed_data.sql
-\i /sql/06_dml_queries.sql
+\i /sql/filename.sql
 ```
