@@ -5,9 +5,6 @@ The solution follows a model-driven architecture, progressing from business requ
 
 ![Data Modeling Pipeline](assets/3.png)
 
-## Videos
-[![Data Modelling Video](https://img.youtube.com/vi/avt6hy4nbxQ/hqdefault.jpg)](https://youtu.be/avt6hy4nbxQ)
-
 ## File Structure 
 
 ```
@@ -23,8 +20,8 @@ data_modelling_lab_aira_franco/
 │       ├── init/
 │       │   ├── 01_ddl.sql         # Database schema
 │       │   ├── 02_seed.sql        # Test data, populate data
-│       │   ├── 03_queries.sql     # Demo queries
-│       │   └── 04_insert_new_cohort.sql # Demo INSERT new values queries
+│       ├── 03_queries.sql          # Demo queries
+│       └── 04_insert_new_cohort.sql # Demo INSERT new values queries
 │
 ├── .env                           # Environment variables
 ├── docker-compose.yml             # Docker setup
@@ -34,6 +31,14 @@ data_modelling_lab_aira_franco/
 └── README.md
 * All scripts are idempotent and safe to re-run.
 ```
+
+## Videos
+[![Data Modelling Video](https://img.youtube.com/vi/avt6hy4nbxQ/hqdefault.jpg)](https://youtu.be/avt6hy4nbxQ)
+
+## Presentation PDF
+
+[📄 View Presentation (PDF)](yh_labb/documentation/presentation.pdf)
+
 
 ## Deliverables
 - Conceptual, logical, and physical data models
