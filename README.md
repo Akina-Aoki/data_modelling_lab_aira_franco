@@ -3,14 +3,14 @@ This repository contains an end-to-end data modeling and database implementation
 
 The solution follows a model-driven architecture, progressing from business requirements → conceptual model → logical model → physical implementation, and is fully containerized using Docker Compose for reproducibility.
 
-![Data Modeling Pipeline LAB](../assets/3.png)
+![Data Modeling Pipeline](assets/3.png)
 
 ## Videos
-![Data Modelling Video  Model Overview + Implementation + Database Explanation](https://youtu.be/avt6hy4nbxQ)
+[![Data Modelling Video](https://img.youtube.com/vi/avt6hy4nbxQ/hqdefault.jpg)](https://youtu.be/avt6hy4nbxQ)
 
 ## File Structure 
 
-````
+```
 data_modelling_lab_aira_franco/
 ├── .venv/                         
 ├── assets/                        # Diagrams and images
