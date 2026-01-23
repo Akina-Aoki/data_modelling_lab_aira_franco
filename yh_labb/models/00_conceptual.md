@@ -2,7 +2,7 @@
 ## Goal: 
 - Map out the big picture for the business stakeholders. Focus on the "things" (Entities) and how they relate (Relationships).
 
-![Conceptual Model](../assets/Conceptual.png)
+![Conceptual Model](../models/Conceptual.png)
 
 ## Entity Descriptions
 
