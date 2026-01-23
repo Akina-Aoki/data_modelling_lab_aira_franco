@@ -1,33 +1,4 @@
 
-
--- ---------------------------------------------------------
--- A) Baseline sanity checks (shows existing DB is populated)
--- ---------------------------------------------------------
-SELECT COUNT(*) AS total_campuses FROM campus;
-SELECT COUNT(*) AS total_programs FROM program;
-SELECT COUNT(*) AS total_students FROM student;
-SELECT COUNT(*) AS total_enrollments FROM enrollment;
-SELECT COUNT(*) AS total_staff_contracts FROM staff_contract;
-SELECT COUNT(*) AS pm_assignments FROM program_manager_management;
-
--- ---------------------------------------------------------
--- B) Scenario setup: New campus in Uppsala
--- ---------------------------------------------------------
-INSERT INTO campus (campus_id, campus_name, city)
-VALUES ('UPP', 'Uppsala Campus', 'Uppsala')
-ON CONFLICT (campus_id) DO NOTHING;
-
--- Verify campus exists
-SELECT * FROM campus WHERE campus_id = 'UPP';
-
--- ---------------------------------------------------------
--- C) New class: DE Cohort 2026–2028 at Uppsala campus
--- (class.program_id allows NULL, but here it's DE)
--- ---------------------------------------------------------
-INSERT INTO class (class_id, program_id, campus_id, class_name, class_code, academic_year)
-VALUES ('DE2628', 'DE', 'UPP', 'DE Cohort 2026-2028 (Uppsala)', 'DE-26-28-UPP', '2026-2028')
-ON CONFLICT (class_id) DO NOTHING;
-
 SELECT class_id, class_name, campus_id, academic_year
 FROM class
 WHERE class_id = 'DE2628';
@@ -91,9 +62,9 @@ INSERT INTO staff (staff_id, first_name, last_name, private_details_id)
 VALUES
   ('ST201', 'Patrik', 'Manager',  'PD301'),
   ('ST202', 'Annika', 'Admin',    'PD302'),
-  ('ST203', 'Kalle',  'Finance',  'PD303'),
-  ('ST204', 'Sara',   'Support',  'PD304'),
-  ('ST205', 'Mina',   'Teacher',  'PD305')
+  ('ST203', 'Kalle', 'Finance',  'PD303'),
+  ('ST204', 'Sara', 'Support',  'PD304'),
+  ('ST205', 'Mina', 'Instructor',  'PD305')
 ON CONFLICT (staff_id) DO NOTHING;
 
 -- Staff contracts (4 ACTIVE roles + 1 PLANNED instructor)
@@ -102,11 +73,11 @@ INSERT INTO staff_contract
   (staff_contract_id, staff_id, role, contract_type, start_date, end_date, status, salary, campus_id)
 VALUES
   ('SCT21', 'ST201', 'PROGRAM_MANAGER', 'PERMANENT', '2026-09-01', '2028-08-31', 'ACTIVE', 66000.00, 'UPP'),
-  ('SCT22', 'ST202', 'ADMINISTRATOR',   'PERMANENT', '2026-09-01', '2028-08-31', 'ACTIVE', 43000.00, 'UPP'),
-  ('SCT23', 'ST203', 'ACCOUNTANT',      'PERMANENT', '2026-09-01', '2028-08-31', 'ACTIVE', 53000.00, 'UPP'),
-  ('SCT24', 'ST204', 'SECRETARY',       'PERMANENT', '2026-09-01', '2028-08-31', 'ACTIVE', 39000.00, 'UPP'),
+  ('SCT22', 'ST202', 'ADMINISTRATOR', 'PERMANENT', '2026-09-01', '2028-08-31', 'ACTIVE', 43000.00, 'UPP'),
+  ('SCT23', 'ST203', 'ACCOUNTANT', 'PERMANENT', '2026-09-01', '2028-08-31', 'ACTIVE', 53000.00, 'UPP'),
+  ('SCT24', 'ST204', 'SECRETARY', 'PERMANENT', '2026-09-01', '2028-08-31', 'ACTIVE', 39000.00, 'UPP'),
   -- Planned instructor for the next academic year
-  ('SCT25', 'ST205', 'INSTRUCTOR',      'PERMANENT', '2026-09-01', '2028-08-31', 'PLANNED', 51000.00, 'UPP')
+  ('SCT25', 'ST205', 'INSTRUCTOR', 'PERMANENT', '2026-09-01', '2028-08-31', 'PLANNED', 51000.00, 'UPP')
 ON CONFLICT (staff_contract_id) DO NOTHING;
 
 -- Verify Uppsala staff + contracts exist
@@ -133,10 +104,10 @@ ON CONFLICT (private_details_id) DO NOTHING;
 -- Student rows
 INSERT INTO student (student_id, first_name, last_name, private_details_id)
 VALUES
-  ('SU201', 'Elin',  'Uppsala', 'PD401'),
-  ('SU202', 'Olle',  'Uppsala', 'PD402'),
-  ('SU203', 'Nora',  'Uppsala', 'PD403'),
-  ('SU204', 'Ivar',  'Uppsala', 'PD404'),
+  ('SU201', 'Elin',  'Simpons', 'PD401'),
+  ('SU202', 'Olle',  'GOT', 'PD402'),
+  ('SU203', 'Nora',  'Futurama', 'PD403'),
+  ('SU204', 'Ivar',  'Hans', 'PD404'),
   ('SU205', 'Tove',  'Remote',  'PD405')
 ON CONFLICT (student_id) DO NOTHING;
 
@@ -177,45 +148,41 @@ JOIN staff_contract sc ON pmm.staff_contract_id = sc.staff_contract_id
 JOIN class c ON pmm.class_id = c.class_id
 WHERE c.class_id = 'DE2628';
 
--- ---------------------------------------------------------
--- I) Demonstrate TRIGGERS (intentional failures with SAVEPOINT)
--- ---------------------------------------------------------
+-- =========================================================
+-- I) BUSINESS RULE DEMO: Program Manager max 3 classes
+-- =========================================================
 
--- 1) Trigger: enforce_pm_role() should reject non-PM staff contracts
-SAVEPOINT sp_bad_pm_role;
--- SCT22 is ADMINISTRATOR, not PROGRAM_MANAGER -> should fail
-INSERT INTO program_manager_management (pm_management_id, staff_contract_id, class_id)
-VALUES ('PMM_BAD1', 'SCT22', 'DE2628');
-ROLLBACK TO SAVEPOINT sp_bad_pm_role;
-
--- 2) Trigger: enforce_max_three_classes() should reject >3 classes per PM
--- We will attempt to assign PM SCT21 to 3 additional existing classes.
--- First two should succeed, the 4th assignment should fail when count >= 3.
-SAVEPOINT sp_three_limit;
-
--- Assign to two more classes (if they exist in your seed: DE2325, DE2426)
-INSERT INTO program_manager_management (pm_management_id, staff_contract_id, class_id)
+-- Create demo-only classes (no PMs assigned yet)
+INSERT INTO class (class_id, program_id, campus_id, class_name, class_code, academic_year)
 VALUES
-  ('PMM22', 'SCT21', 'DE2325')
+  ('DE2729', 'DE', 'UPP', 'DE Cohort 2027–2029', 'DE-27-29', '2027-2029'),
+  ('DE2830', 'DE', 'UPP', 'DE Cohort 2028–2030', 'DE-28-30', '2028-2030'),
+  ('DE2931', 'DE', 'UPP', 'DE Cohort 2029–2031', 'DE-29-31', '2029-2031')
 ON CONFLICT DO NOTHING;
 
+-- Assign the same PM to three classes (allowed)
 INSERT INTO program_manager_management (pm_management_id, staff_contract_id, class_id)
 VALUES
-  ('PMM23', 'SCT21', 'DE2426')
+  ('PMM22', 'SCT21', 'DE2729'),
+  ('PMM23', 'SCT21', 'DE2830')
 ON CONFLICT DO NOTHING;
 
--- This one should fail because it becomes the 4th class managed by SCT21
+-- Attempt a 4th assignment (must fail)
+SAVEPOINT sp_pm_limit;
+
 INSERT INTO program_manager_management (pm_management_id, staff_contract_id, class_id)
-VALUES
-  ('PMM24', 'SCT21', 'DE2527');
+VALUES ('PMM24', 'SCT21', 'DE2931');
 
-ROLLBACK TO SAVEPOINT sp_three_limit;
+ROLLBACK TO SAVEPOINT sp_pm_limit;
 
--- Show the PM class counts (proof of business rule)
-SELECT staff_contract_id, COUNT(*) AS classes_managed
+-- Proof query
+SELECT
+  staff_contract_id,
+  COUNT(*) AS classes_managed
 FROM program_manager_management
-GROUP BY staff_contract_id
-ORDER BY classes_managed DESC;
+WHERE staff_contract_id = 'SCT21'
+GROUP BY staff_contract_id;
+
 
 -- ---------------------------------------------------------
 -- J) Demonstrate PARTIAL UNIQUE INDEX (intentional failure)
