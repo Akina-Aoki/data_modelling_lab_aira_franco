@@ -1,9 +1,42 @@
-# data_modelling_lab_aira_franco
+# Data Modelling 
 This repository contains an end-to-end data modeling and database implementation for YrkesCo, a vocational school operating across multiple campuses in Sweden. The project replaces fragmented Excel-based administration with a normalized, scalable, and auditable PostgreSQL data model, designed to support both business stakeholders and technical consumers.
 
-The solution follows a model-driven architecture, progressing from business requirements → conceptual model → logical model → physical implementation, and is fully containerized using Docker Compose for reproducibility.
+```sql
+/* =========================================================
+   Entity: yrkesco_repository
+   Purpose: End-to-end data modeling & database implementation
+   ========================================================= */
 
-![Data Modeling Pipeline](assets/3.png)
+SELECT
+    'YrkesCo Vocational School'        AS organization,
+    'Sweden (multi-campus)'            AS scope,
+    'PostgreSQL'                       AS database,
+    'Docker Compose'                   AS runtime,
+    'Excel → 3NF relational model'     AS transformation,
+    'Business → Conceptual → Logical → Physical' AS modeling_flow,
+    'Normalized, auditable, scalable'  AS outcome;
+```
+
+# 💻 Tech Stack:
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-0db7ed?style=for-the-badge&logo=docker&logoColor=white)
+
+## Presentation PDF
+[📄 View Presentation (PDF)](yh_labb/documentation/presentation.pdf)
+
+## Deliverables
+- Conceptual, logical, and physical data models
+- PostgreSQL implementation with enforced business rules
+- Dockerized execution environment
+- SQL demo queries proving data integrity
+
+Presentation PDF and video pitch (linked in repository)
+
+## Dockerized Architecture
+- PostgreSQL runs in an isolated container
+- SQL initialization scripts are mounted read-only
+- Named volumes ensure data persistence across restarts
+- Environment variables are managed via `.env`
 
 ## File Structure 
 
@@ -35,21 +68,5 @@ data_modelling_lab_aira_franco/
 ## Videos
 [![Data Modelling Video](https://img.youtube.com/vi/avt6hy4nbxQ/hqdefault.jpg)](https://youtu.be/avt6hy4nbxQ)
 
-## Presentation PDF
-
-[📄 View Presentation (PDF)](yh_labb/documentation/presentation.pdf)
-
-
-## Deliverables
-- Conceptual, logical, and physical data models
-- PostgreSQL implementation with enforced business rules
-- Dockerized execution environment
-- SQL demo queries proving data integrity
-
-Presentation PDF and video pitch (linked in repository)
-
-## Dockerized Architecture
-- PostgreSQL runs in an isolated container
-- SQL initialization scripts are mounted read-only
-- Named volumes ensure data persistence across restarts
-- Environment variables are managed via `.env`
+## Project Pipeline
+![Data Modeling Pipeline](assets/3.png)
