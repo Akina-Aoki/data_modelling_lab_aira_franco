@@ -1,22 +1,6 @@
 # Data Modelling 
 This repository contains an end-to-end data modeling and database implementation for YrkesCo, a vocational school operating across multiple campuses in Sweden. The project replaces fragmented Excel-based administration with a normalized, scalable, and auditable PostgreSQL data model, designed to support both business stakeholders and technical consumers.
 
-```sql
-/* =========================================================
-   Entity: yrkesco_repository
-   Purpose: End-to-end data modeling & database implementation
-   ========================================================= */
-
-SELECT
-    'YrkesCo Vocational School'        AS organization,
-    'Sweden (multi-campus)'            AS scope,
-    'PostgreSQL'                       AS database,
-    'Docker Compose'                   AS runtime,
-    'Excel → 3NF relational model'     AS transformation,
-    'Business → Conceptual → Logical → Physical' AS modeling_flow,
-    'Normalized, auditable, scalable'  AS outcome;
-```
-
 # 💻 Tech Stack:
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-0db7ed?style=for-the-badge&logo=docker&logoColor=white)
