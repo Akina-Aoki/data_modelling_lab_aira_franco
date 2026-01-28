@@ -50,7 +50,7 @@ data_modelling_lab_aira_franco/
 ```
 
 ## Videos
-[![Data Modelling Video](https://img.youtube.com/vi/avt6hy4nbxQ/hqdefault.jpg)](https://youtu.be/avt6hy4nbxQ)
+[![Data Modelling Video](https://youtu.be/L8Wg-WHX-T8)
 
 ## Project Pipeline
 ![Data Modeling Pipeline](assets/3.png)
