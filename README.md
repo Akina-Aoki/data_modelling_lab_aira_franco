@@ -120,8 +120,8 @@ If something fails, consult:
 
 ----
 
-## Models 
-### Conceptual Model
+## Conceptual & Logical Model Diagrams 
+#### Conceptual Model
 ![Conceptual Model](yh_labb/models/Conceptual.png)
 
 | Entity                         | Description                                                                                                                                                                                              |
@@ -141,7 +141,7 @@ If something fails, consult:
 | 13. **Consulant Teach** | Represents the actual delivery of teaching: a consultant teaching a specific course to a specific class during a defined period. |
 | 14. **Enrollment** | Represents a student’s registration in a specific class for a given academic term. Enrollment enforces business rules ensuring that a student is enrolled in either one program class or one standalone course per term, but not both. |
 
-### Logical Model
+#### Logical Model
 ![Logical Model](yh_labb/models/Logical.png)
 
 | Entity A                       | Entity B                       | Cardinality   | Description                                                                                                                              |
