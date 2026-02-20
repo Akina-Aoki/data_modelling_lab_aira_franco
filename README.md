@@ -49,7 +49,8 @@ data_modelling_lab_aira_franco/
 
 
 ### Video
-[![Data Modelling Video](https://img.youtube.com/vi/avt6hy4nbxQ/hqdefault.jpg)](https://youtu.be/avt6hy4nbxQ)
+[![Data Modelling Video](https://img.youtube.com/vi/L8Wg-WHX-T8/hqdefault.jpg)](https://www.youtube.com/watch?v=L8Wg-WHX-T8)
+
 
 ### Deliverables
 - Conceptual, logical, and physical data models
@@ -118,6 +119,8 @@ If something fails, consult:
 - End-to-end implementation notes: [06_docker_implementation.md](yh_labb/documentation/06_docker_implementation.md)
 
 ----
+
+## Models 
 ### Conceptual Model
 ![Conceptual Model](yh_labb/models/Conceptual.png)
 
@@ -125,7 +128,6 @@ If something fails, consult:
 ![Logical Model](yh_labb/models/Logical.png)
 
 ----
-
 
 ## Documentation Index
 - [01 Business Requirements](yh_labb/documentation/01_business_requirements.md)
