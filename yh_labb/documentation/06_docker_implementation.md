@@ -1,4 +1,15 @@
 # Process runbook for DML in PosgreSQL inside Docker container
+
+Check if venv is active
+```
+python -c "import sys; print(sys.executable)"
+```
+
+Expected Output:
+```
+...data_modelling_lab_aira_franco/.venv/Scripts/python.exe
+```
+
 ## Target State
 - Docker Desktop is running
 - A Postgres container is running via docker compose
@@ -11,20 +22,25 @@
 ## Path
 - Check that `.env` and `docker-compose.yml` is accurate. 
 - Check that all neccessary files `.env` and `docker-compose.yml` are inside `yh_labb`
+
+## cd into the compose root
 - Docker looks for relative paths
     - cd into the right root `~/de25/data_modelling_lab_aira_franco/yh_labb`
 
+-----
+# Follow this commands as a guide:
 ## Docker compose
 - Run:
 - `docker compose down -v`
 - `docker compose up -d`
-- Output: `$ docker compose up -d`
 
+Expected output:
 ```
 [+] Running 3/3
  ✔ Network yh_labb_default       Created  
  ✔ Volume yh_labb_postgres_data  Created                                                                            
- ✔ Container yrkesco_postgres    Started ```
+ ✔ Container yrkesco_postgres    Started 
+```
 
 - verify: `docker ps`
 - should see:
@@ -66,7 +82,10 @@ Ports: 0.0.0.0:5432->5432/tcp```
     - \i /sql/04_insert_new_cohort.sql
 ```
 
-## Re-run scripts in psql
+
+----
+
+# To Exit: Re-run scripts in psql
 ### Option A: Rerun ust that script
 - After cleaning up typos, run `the folder name` to just re run that script.
 - `\! clear` or CTRL + L to clear terminal.
