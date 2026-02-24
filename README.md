@@ -1,4 +1,4 @@
-# Data Modelling 
+# Data Modelling for a Relational Database - OLTP 
 This repository contains an end-to-end data modeling and database implementation for YrkesCo, a vocational school operating across multiple campuses in Sweden. The project replaces fragmented Excel-based administration with a normalized, scalable, and auditable PostgreSQL data model, designed to support both business stakeholders and technical consumers.
 
 ### 💻 Tech Stacks
